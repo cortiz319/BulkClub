@@ -27,6 +27,8 @@ Executive *temp_e; //temprary executive member
 int option; //temporary dollar, temporary cents, temporary var+2
 bool running;
 
+#include "core/SalesReport.h" // It would only compile here :( 
+
 int main() {
 	//variable initialization
 	members = new Member*[num_members];
@@ -50,7 +52,15 @@ int main() {
 		cin >> option;
 		switch (option) {
 		case 1:
-			cout << "Implement this guy!" << endl << endl; //christian
+			cout << left;
+			cout << "What day would you like to see: ";
+			cin  >> option;
+
+			if(option > 0 && option <6)
+				SalesReport(option, members, MAX_ITEMS);
+			else
+				cout << "\nNot a valid day. Please try again\n\n";
+				
 			break;
 		case 3:
 			cout << "Implement this guy!" << endl << endl; //jose
