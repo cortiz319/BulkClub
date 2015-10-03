@@ -60,7 +60,9 @@ int main() {
 				SalesReport(option, members, MAX_ITEMS);
 			else
 				cout << "\nNot a valid day. Please try again\n\n";
-				
+			break;
+		case 2:
+			Report(members, MAX_ITEMS);
 			break;
 		case 3:
 			cout << "Implement this guy!" << endl << endl; //jose
