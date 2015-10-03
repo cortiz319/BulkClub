@@ -10,9 +10,78 @@
 
 #include<iomanip>
 
+const int SALES_REPORT = 30;
+
+void Report(Member **members, int num)
+{
+	Member* membersList[num_members];
+	Member* temp;
+	bool    purchase;
+	int     numItems = 0;
+	int     grandTotal = 0;
+
+    int i, j;
+
+	for(int i = 0; i < num_members; i++)
+		membersList[i] = members[i];
+
+
+    for (i = 1; i < num_members; i++) {
+          j = i;
+          while (j > 0 && membersList[j-1]->number > membersList[j]->number) {
+                temp = membersList[j];
+                membersList[j] = membersList[j - 1];
+                membersList[j - 1] = temp;
+                j--;
+          }
+    }
+
+    for(int i = 0; i < num_members; i++)
+	{
+    	numItems = 0;
+    	purchase = false;
+    	cout << left;
+    	cout << setw(SALES_REPORT) << "NAME:" << "MEMBER ID\n";
+		cout << setw(SALES_REPORT) << membersList[i]->name
+			 << membersList[i]->number << endl << endl;
+		cout << "   ";
+		cout << setw(SALES_REPORT-3) << "ITEM(S)" << "QUANTITY\n";
+		for(int k = 0; k < num_days; k++)
+		{
+			for(int j = 0; j < purchases_a_day[k]; j++)
+			{
+				if(membersList[i]->number == trips[k][j].id)
+				{
+					purchase = true;
+					cout << "   ";
+					cout << setw(SALES_REPORT-3) << trips[k][j].item->item_name;;
+					cout << trips[k][j].item->quantity_sold << endl;
+					numItems += trips[k][j].item->quantity_sold;
+				}
+			}
+		}
+
+		// Used this to check if any member has not purchased an item.
+		// Testing revealed two have not purchased anything.
+		if(!purchase)
+			cout << "\n*** Has not purchases any item! ***\n\n";
+		else
+			cout << "\n   " << setw(SALES_REPORT-3) << "TOTAL PURCHASES:" << numItems;
+
+		grandTotal += numItems;
+		cout << endl;
+	}
+
+    cout << "*****************************************************\n";
+    cout << "Grand TOTAL ITEMS PURCHASED: " << grandTotal << endl;
+    cout << "*****************************************************\n\n";
+
+    cout << right;
+
+}
+
 void SalesReport(int day, Member **members, int num)
 {
-	const int SALES_REPORT = 30;
 	Member* searchMem;
 	int numExec = 0;
 	int numReg = 0;
