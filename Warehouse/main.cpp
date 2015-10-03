@@ -2,6 +2,10 @@
  * The project... nuff said
  */
 
+/*
+ * The project... nuff said
+ */
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -26,6 +30,7 @@ Trip **trips; //it's ra1ning 2-dimensional arrays!
 Executive *temp_e; //temprary executive member
 int option; //temporary dollar, temporary cents, temporary var+2
 bool running;
+string findItem; // for search for an item;
 
 #include "core/SalesReport.h" // It would only compile here :( 
 
@@ -44,11 +49,12 @@ int main() {
 	while (running) {
 		cout << "Please select an option:" << endl;
 		cout << "1. Sales report for a day" << endl;
-		cout << "2. NULL" << endl;
+		cout << "2. Member Report" << endl;
 		cout << "3. Quantity of items" << endl;
 		cout << "4. NULL" << endl;
 		cout << "5. Memberships expiring" << endl;
-		cout << "6. Quit" << endl;
+		cout << "8. Search for Item" << endl;
+		cout << "10. Quit" << endl;
 		cin >> option;
 		switch (option) {
 		case 1:
@@ -57,12 +63,13 @@ int main() {
 			cin  >> option;
 
 			if(option > 0 && option <6)
-				SalesReport(option, members, MAX_ITEMS);
+				SalesReport(option, members, num_items);
 			else
 				cout << "\nNot a valid day. Please try again\n\n";
+				
 			break;
 		case 2:
-			Report(members, MAX_ITEMS);
+			Report(members);
 			break;
 		case 3:
 			cout << "Implement this guy!" << endl << endl; //jose
@@ -70,7 +77,14 @@ int main() {
 		case 5:
 			cout << "Implement this guy!" << endl << endl; //jonathin
 			break;
-		case 6:
+		case 8:
+			cout << "What item would you like to search for? :";
+			cin.ignore(1000,'\n');
+			getline(cin,findItem);
+
+			SearchItem(findItem, items, num_members);
+			break;
+		case 10:
 			running = false;
 			break;
 		default:
