@@ -12,7 +12,24 @@
 
 const int SALES_REPORT = 30;
 
-void Report(Member **members, int num)
+void SearchItem(string itemName, Item **is, int num)
+{
+	/*
+	 * I had code to output the dates of the item sold but took it out.
+	 * Not entirely sure if it made sense given the specs.
+	 */
+	Item* searchItem;
+	searchItem = search_for_item(itemName, is, num );
+
+	cout << "ITEM: ";
+	if(searchItem != NULL)
+		cout << itemName << " quantity sold: " << searchItem->quantity_sold;
+	else
+		cout << itemName << " was not found.";
+	cout << endl << endl;
+}
+
+void Report(Member **members)
 {
 	Member* membersList[num_members];
 	Member* temp;
@@ -64,7 +81,7 @@ void Report(Member **members, int num)
 		// Used this to check if any member has not purchased an item.
 		// Testing revealed two have not purchased anything.
 		if(!purchase)
-			cout << "\n*** Has not purchases any item! ***\n\n";
+			cout << "\n*** Has not purchases any item! ***\n";
 		else
 			cout << "\n   " << setw(SALES_REPORT-3) << "TOTAL PURCHASES:" << numItems;
 
