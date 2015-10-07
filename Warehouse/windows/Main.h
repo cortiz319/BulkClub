@@ -1,22 +1,13 @@
 #ifndef WINDOWS_MAIN_H_
 #define WINDOWS_MAIN_H_
 
-#define MAX_BUFFER  64
 #include "Window.h"
 
 class Main : public Window {
-private:
-	zr_edit_box eb;
-	zr_char edit_buffer[MAX_BUFFER];
-	enum {EASY, HARD};
-	zr_size option;
-	zr_float value;
 public:
-	Main() {
-		ID = 0;
-		zr_edit_box_init_fixed(&eb, edit_buffer, MAX_BUFFER, NULL, NULL);
-		option = EASY;
-		value = 0.6f;
+	Main(int *p_a_d, Item ** i, int *n_i, Member **m,
+			int n_m, Trip **t, int n_d) : Window(p_a_d, i, n_i, m, n_m, t, n_d) {
+		ID = 1;
 	}
 	~Main() {}
 	void render_main(zr_window *);

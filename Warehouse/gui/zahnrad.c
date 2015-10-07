@@ -847,7 +847,6 @@ zr_input_is_key_down(const struct zr_input *i, enum zr_keys key)
     if (k->down) return zr_true;
     return zr_false;
 }
-
 /*
  * ==============================================================
  *
@@ -4731,14 +4730,14 @@ zr_style_default_rounding(struct zr_style *style)
 static void
 zr_style_default_color(struct zr_style *style)
 {
-    style->colors[ZR_COLOR_TEXT] = zr_rgba(255, 255, 255, 255);
+    style->colors[ZR_COLOR_TEXT] = zr_rgba(135, 135, 135, 255);
     style->colors[ZR_COLOR_TEXT_HOVERING] = zr_rgba(120, 120, 120, 255);
     style->colors[ZR_COLOR_TEXT_ACTIVE] = zr_rgba(100, 100, 100, 255);
-    style->colors[ZR_COLOR_WINDOW] = zr_rgba(65, 65, 65, 255);
+    style->colors[ZR_COLOR_WINDOW] = zr_rgba(45, 45, 45, 255);
     style->colors[ZR_COLOR_HEADER] = zr_rgba(40, 40, 40, 255);
     style->colors[ZR_COLOR_BORDER] = zr_rgba(38, 38, 38, 255);
-    style->colors[ZR_COLOR_BUTTON] = zr_rgba(60, 60, 60, 255);
-    style->colors[ZR_COLOR_BUTTON_HOVER] = zr_rgba(45, 45, 45, 255);
+    style->colors[ZR_COLOR_BUTTON] = zr_rgba(50, 50, 50, 255);
+    style->colors[ZR_COLOR_BUTTON_HOVER] = zr_rgba(35, 35, 35, 255);
     style->colors[ZR_COLOR_BUTTON_ACTIVE] = zr_rgba(40, 40, 40, 255);
     style->colors[ZR_COLOR_TOGGLE] = zr_rgba(100, 100, 100, 255);
     style->colors[ZR_COLOR_TOGGLE_HOVER] = zr_rgba(120, 120, 120, 255);
@@ -4751,9 +4750,9 @@ zr_style_default_color(struct zr_style *style)
     style->colors[ZR_COLOR_PROGRESS_CURSOR] = zr_rgba(100, 100, 100, 255);
     style->colors[ZR_COLOR_PROGRESS_CURSOR_HOVER] = zr_rgba(120, 120, 120, 255);
     style->colors[ZR_COLOR_PROGRESS_CURSOR_ACTIVE] = zr_rgba(150, 150, 150, 255);
-    style->colors[ZR_COLOR_INPUT] = zr_rgba(65, 65, 65, 255);
+    style->colors[ZR_COLOR_INPUT] = zr_rgba(45, 45, 45, 255);
     style->colors[ZR_COLOR_INPUT_CURSOR] = zr_rgba(100, 100, 100, 255);
-    style->colors[ZR_COLOR_INPUT_TEXT] = zr_rgba(255, 255, 255, 255);
+    style->colors[ZR_COLOR_INPUT_TEXT] = zr_rgba(135, 135, 135, 255);
     style->colors[ZR_COLOR_SPINNER] = zr_rgba(45, 45, 45, 255);
     style->colors[ZR_COLOR_SPINNER_TRIANGLE] = zr_rgba(100, 100, 100, 255);
     style->colors[ZR_COLOR_HISTO] = zr_rgba(120, 120, 120, 255);
@@ -5268,6 +5267,7 @@ zr_begin(struct zr_context *context, struct zr_window *window)
             context->clip.x = window->bounds.x;
             context->clip.w = context->width;
         }
+
         context->clip.y = window->bounds.y;
         context->clip.h = window->bounds.h - (context->footer_h + context->header.h);
         context->clip.h -= (window_padding.y + item_padding.y);
@@ -5776,7 +5776,6 @@ zr_header_title(struct zr_context *layout, const char *title,
     if (align == ZR_HEADER_LEFT)
         label.w = MAX((zr_float)t + 2 * item_padding.x, 4 * item_padding.x);
     else label.w = MAX((zr_float)t + 2 * item_padding.x, 4 * item_padding.x);
-    label.w -= (3 * item_padding.x);
     zr_command_buffer_push_text(out, label, (const zr_char*)title, text_len,
         &c->font, c->colors[ZR_COLOR_HEADER], c->colors[ZR_COLOR_TEXT]);
 }
@@ -8356,3 +8355,4 @@ zr_tooltip(struct zr_context *layout, const char *text)
     zr_text(&tip, text, text_len, ZR_TEXT_LEFT);
     zr_tooltip_end(layout, &tip);
 }
+

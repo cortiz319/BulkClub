@@ -106,7 +106,7 @@ void SalesReport(int day, Member **members, int num)
 	int j;
 	Member* compare;
 	bool found = false;
-	
+
 	cout << setw(SALES_REPORT) << "ITEMS" << "QUANTITY\n";
 	for(int i =0; i < purchases_a_day[day-1]; i++)
 	{

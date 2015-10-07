@@ -40,7 +40,6 @@ extern "C" {
 /* defines the number of temporary configuration color changes that can be stored */
 #define ZR_MAX_ATTRIB_STACK 32
 /* defines the number of temporary configuration attribute changes that can be stored */
-
 /*
  * ==============================================================
  *
@@ -54,12 +53,12 @@ extern "C" {
 #define ZR_COMPILE_WITH_ASSERT 1
 /* setting this define to 1 adds the <assert.h> header for the assert macro
   IMPORTANT: it also adds clib so only use it if wanted */
-#define ZR_COMPILE_WITH_VERTEX_BUFFER 1
+#define ZR_COMPILE_WITH_VERTEX_BUFFER 0
 /* setting this define to 1 adds a vertex draw command list backend to this library,
   which allows you to convert queue commands into vertex draw commands.
   If you do not want or need a default backend you can set this flag to zero
   and the module of the library will not be compiled */
-#define ZR_COMPILE_WITH_FONT 1
+#define ZR_COMPILE_WITH_FONT 0
 /* setting this define to 1 adds the `stb_truetype` and `stb_rect_pack` header
  to this library and provides a default font for font loading and rendering.
  If you already have font handling or do not want to use this font handler
@@ -3054,7 +3053,6 @@ void zr_menubar_begin(struct zr_context*);
 /*  this function begins the window menubar build up process */
 void zr_menubar_end(struct zr_context*);
 /*  this function ends the window menubar build up process */
-
 /* --------------------------------------------------------------
  *                          Layout
  * --------------------------------------------------------------

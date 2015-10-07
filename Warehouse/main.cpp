@@ -9,8 +9,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "Windows/Window.h"
-#include "Windows/Main.h"
+#include "windows/Loader.h"
+#include "windows/InputDay.h"
+#include "windows/Window.h"
+#include "windows/Main.h"
 #include "gui/zahnrad.h"
 #include "GUI.h"
 #include "member/Member.h"
@@ -18,13 +20,13 @@
 #include "member/Executive.h"
 #include "util/Trip.h"
 #include "util/Item.h"
-#include "core/Initializer.h"
 
-#define DTIME       16
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 #define MAX_MEMORY  (32 * 1024)
 #define MAX_BUFFER  64
+#define UNUSED(a)   ((void)(a))
+#define MAX_ITEMS 256
 
 using namespace std;
 
@@ -32,13 +34,14 @@ using namespace std;
 XWindow xw;
 Attributes gui;
 Window **windows;
-int num_windows = 0;
+int num_windows = 3;
 int window_index = 0;
-const int num_members = 12; //change if needed
-const int num_days = 5;
-const int purchases_a_day[] = {13, 12, 10, 12, 13};
+
+int num_members = 12; //change if needed
+int num_days = 5;
+int *purchases_a_day;
 Item **items;
-int num_items;
+int *num_items;
 Member **members; //sexy right?
 Trip **trips; //it's ra1ning 2-dimensional arrays!
 
@@ -67,11 +70,7 @@ LRESULT CALLBACK wnd_proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 }
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int shown) {
-    LARGE_INTEGER freq;
-    long long start;
-    long long dt;
-
-    QueryPerformanceFrequency(&freq);
+	FreeConsole();
     xw.wc.style = CS_HREDRAW|CS_VREDRAW;
     xw.wc.lpfnWndProc = wnd_proc;
     xw.wc.hInstance = hInstance;
@@ -101,46 +100,64 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
 	ZR_WINDOW_BORDER,
 	&gui.queue, &gui.style, &gui.input);
 
+    set_style(&gui.style);
+
+    purchases_a_day = new int[5];
+    purchases_a_day[0] = 13; //day1
+    purchases_a_day[1] = 12; //day2
+    purchases_a_day[2] = 10; //day3
+    purchases_a_day[3] = 12; //day4
+    purchases_a_day[4] = 13; //day5
     members = new Member*[num_members];
 	trips = new Trip*[num_days];
 	items = new Item*[MAX_ITEMS];
 	for (int i = 0; i < num_days; i++) trips[i] = new Trip[purchases_a_day[i]];
-	num_items = 0;
+	num_items = new int;
+	*num_items = 0;
 
     windows = new Window*[num_windows];
-    windows[0] = new Main();
+    windows[0] = new Loader(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[1] = new Main(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[2] = new InputDay(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     //load your windows here!
-
-    Initialize_Everything(num_days, num_members, num_items, members, trips, items, purchases_a_day);
 
     gui.running = true;
 
     while (gui.running) {
         /* Input */
         MSG msg;
-        start = timestamp(freq);
         zr_input_begin(&gui.input);
         while (PeekMessage(&msg, xw.hWnd, 0, 0, PM_REMOVE)) {
-            if (msg.message == WM_KEYDOWN) key(&gui.input, &msg, zr_true);
-            else if (msg.message == WM_KEYUP) key(&gui.input, &msg, zr_false);
-            else if (msg.message == WM_LBUTTONDOWN) btn(&gui.input, &msg, zr_true);
-            else if (msg.message == WM_LBUTTONUP) btn(&gui.input, &msg, zr_false);
-            else if (msg.message == WM_MOUSEMOVE) motion(&gui.input, &msg);
-            else if (msg.message == WM_CHAR) text(&gui.input, &msg);
+        	if (msg.message == WM_KEYDOWN)
+        		input_key(&gui.input, &msg, zr_true);
+			else if (msg.message == WM_KEYUP)
+				input_key(&gui.input, &msg, zr_false);
+			else if (msg.message == WM_LBUTTONDOWN)
+				input_btn(&gui.input, &msg, zr_true);
+			else if (msg.message == WM_LBUTTONUP)
+				input_btn(&gui.input, &msg, zr_false);
+			else if (msg.message == WM_MOUSEMOVE)
+				input_motion(&gui.input, &msg);
+			else if (msg.message == WM_CHAR)
+				input_text(&gui.input, &msg);
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
         zr_input_end(&gui.input);
 
         windows[window_index]->render_main(&gui.window);
+        if (windows[window_index]->do_update()) {
+        	windows[window_index]->set_data(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+        	for (int i = 0; i < num_windows; i++){
+        		if (i != window_index) windows[i]->update_data(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+        	}
+        }
+        window_index = windows[window_index]->setWindow();
 
         surface_begin(xw.backbuffer);
         surface_clear(xw.backbuffer, 100, 100, 100);
         draw(xw.backbuffer, &gui.queue);
         surface_end(xw.backbuffer, xw.hdc);
-
-        dt = timestamp(freq) - start;
-        if (dt < DTIME) Sleep(DTIME - (DWORD)dt);
     }
 
     free(zr_buffer_memory(&gui.queue.buffer));

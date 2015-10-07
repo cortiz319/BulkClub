@@ -92,12 +92,14 @@ void surface_end(XSurface *, HDC);
 
 void draw(XSurface *, zr_command_queue *);
 
-void key(struct zr_input *, MSG *, zr_bool);
+void input_key(struct zr_input *, MSG *, zr_bool);
 
-void text(struct zr_input *, MSG *);
+void input_text(struct zr_input *, MSG *);
 
-void motion(struct zr_input *, MSG *);
+void input_motion(struct zr_input *, MSG *);
 
-void btn(struct zr_input *, MSG *, zr_bool);
+void input_btn(struct zr_input *, MSG *, zr_bool);
+
+void set_style(zr_style *);
 
 #endif /* GUI_H_ */
