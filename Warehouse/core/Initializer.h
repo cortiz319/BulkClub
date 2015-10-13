@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <math.h>
+#include <stdlib.h>
 #include "../member/Member.h"
 #include "../member/Executive.h"
 #include "../member/Regular.h"

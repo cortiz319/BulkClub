@@ -24,7 +24,7 @@ void Loader::render_main(zr_window *window) {
 			zr_header(&context, "Success!", 0, 0, ZR_HEADER_LEFT);
 			zr_layout_row_dynamic(&context, 30, 1);
 			zr_label(&context, "Loading right now", ZR_TEXT_LEFT);
-			changeWindow(1); //to main window!
+			changeWindow(MAIN); //to main window!
 		} else {
 			zr_header(&context, "Welcome to the BulkClub!", 0, 0, ZR_HEADER_LEFT);
 			zr_layout_row_dynamic(&context, 30, 1);

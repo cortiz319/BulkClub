@@ -1,8 +1,0 @@
-#ifndef WINDOWS_SALESREPORT_H_
-#define WINDOWS_SALESREPORT_H_
-
-
-
-
-
-#endif /* WINDOWS_SALESREPORT_H_ */

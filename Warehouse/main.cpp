@@ -10,6 +10,7 @@
 #include <string>
 #include <fstream>
 #include "windows/Loader.h"
+#include "windows/MemberInfo.h"
 #include "windows/InputDay.h"
 #include "windows/Window.h"
 #include "windows/Main.h"
@@ -34,7 +35,7 @@ using namespace std;
 XWindow xw;
 Attributes gui;
 Window **windows;
-int num_windows = 3;
+int num_windows = 4;
 int window_index = 0;
 
 int num_members = 12; //change if needed
@@ -50,6 +51,10 @@ Trip **trips; //it's ra1ning 2-dimensional arrays!
 //MinGW C++ Linker->Libraries->Libraries (-l)->
 //*click icon with green plus sign*->Type "gdi32" without quotes->
 //Ok->Apply->Ok
+
+//GUI documentation: https://github.com/vurtun/zahnrad
+
+//Current GUI issues: Space bar doesn't work right
 
 LRESULT CALLBACK wnd_proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
@@ -116,9 +121,10 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
 	*num_items = 0;
 
     windows = new Window*[num_windows];
-    windows[0] = new Loader(purchases_a_day, items, num_items, members, num_members, trips, num_days);
-    windows[1] = new Main(purchases_a_day, items, num_items, members, num_members, trips, num_days);
-    windows[2] = new InputDay(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[LOADER] = new Loader(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[MAIN] = new Main(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[INPUTDAY] = new InputDay(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[MEMBERINFO] = new MemberInfo(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     //load your windows here!
 
     gui.running = true;
@@ -146,6 +152,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
         zr_input_end(&gui.input);
 
         windows[window_index]->render_main(&gui.window);
+        if (windows[window_index]->exit_program()) gui.running = false;
         if (windows[window_index]->do_update()) {
         	windows[window_index]->set_data(purchases_a_day, items, num_items, members, num_members, trips, num_days);
         	for (int i = 0; i < num_windows; i++){
@@ -153,6 +160,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
         	}
         }
         window_index = windows[window_index]->setWindow();
+
 
         surface_begin(xw.backbuffer);
         surface_clear(xw.backbuffer, 100, 100, 100);

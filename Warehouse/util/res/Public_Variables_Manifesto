@@ -1,0 +1,25 @@
+If you ask any standard computer scientist they will tell you that
+public variables in classes are bad. Why is this? It's because 
+this is what you've been fed by your teachers, and your teachers 
+were fed this by their teachers and so on. Public variables in 
+classes are declared bad for two reasons:
+
+1. Unprotected variables.
+2. Breaks OOP. (object oriented programming)
+
+To address number 1, public variables are inherently unprotected,
+that's just what they are. (hence why they are not called private)
+If you find yourself in a situation where you don't want to protect
+a variable then what reason is there to protect it? That logic is
+backwards.
+
+To address number 2, OOP is the concept of adding a layer of
+arbitration over a class as to protect its exact implementation.
+The normal way around this is to set a variable private and creating
+get/set methods for the variable. THIS BREAKS OOP YOU MORONS. By
+creating get/set methods you are just crowding your class with
+unnecessary functions, decreasing readability, decreasing 
+efficency, increasing amount of code that needs to be written 
+and you are revealing implementation thus breaking OOP.
+
+Public variables in classes are more than fine.

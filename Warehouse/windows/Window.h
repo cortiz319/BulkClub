@@ -1,6 +1,8 @@
 #ifndef WINDOWS_WINDOW_H_
 #define WINDOWS_WINDOW_H_
 
+#define MAX_BUFFER  64
+
 #include <iostream>
 #include "../member/Member.h"
 #include "../util/Item.h"
@@ -9,9 +11,15 @@
 
 using namespace std;
 
+//make sure you add your window to the archive here!
+const int LOADER = 0;
+const int MAIN = 1;
+const int INPUTDAY = 2;
+const int MEMBERINFO = 3;
+
 class Window {
 private:
-	bool set, update;
+	bool set, update, exit_prog;
 	int ID_c;
 protected:
 	int *purchases_a_day;
@@ -32,11 +40,12 @@ public:
 		return_val = NULL;
 		ID = -1;
 		update = false;
+		exit_prog = false;
 	}
 	void issue_update() {
 		update = true;
 	}
-	bool do_update() {
+	bool do_update() { //don't call this function
 		if (update) {
 			update = false;
 			return true;
@@ -44,7 +53,7 @@ public:
 		return false;
 	}
 	void update_data(int *p_a_d, Item ** i, int *n_i,
-			Member **m, int n_m, Trip **t, int n_d) {
+			Member **m, int n_m, Trip **t, int n_d) { //don't call this function
 		purchases_a_day = p_a_d;
 		items = i;
 		num_items = n_i;
@@ -54,7 +63,7 @@ public:
 		num_days = n_d;
 	}
 	void set_data(int *&p_a_d, Item **&i, int *&n_i,
-			Member **&m, int n_m, Trip **&t, int n_d) {
+			Member **&m, int n_m, Trip **&t, int n_d) { //don't call this function
 		p_a_d = purchases_a_day;
 		i = items;
 		n_i = num_items;
@@ -69,12 +78,18 @@ public:
 		set = true;
 		ID_c = ID;
 	}
-	int setWindow() {
+	int setWindow() { //don't call this function
 		if (set) {
 			set = false;
 			return ID_c;
 		}
 		return ID;
+	}
+	void exit() {
+		exit_prog = true;
+	}
+	bool exit_program() { //don't call this function
+		return exit_prog;
 	}
 };
 

@@ -7,7 +7,7 @@ class Main : public Window {
 public:
 	Main(int *p_a_d, Item ** i, int *n_i, Member **m,
 			int n_m, Trip **t, int n_d) : Window(p_a_d, i, n_i, m, n_m, t, n_d) {
-		ID = 1;
+		ID = MAIN;
 	}
 	~Main() {}
 	void render_main(zr_window *);
