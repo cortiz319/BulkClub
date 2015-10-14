@@ -2,7 +2,7 @@
 
 DWORD WINAPI mythread(void *threadParams) {
 	struct threadParams* params = (struct threadParams*)threadParams;
-	bool out = Initialize_Everything(params->param3, params->param4,
+	bool out = Initialize_Everything(params->param3, *params->param4,
 			*params->param5, params->param6, params->param7, params->param8,
 			params->param9,
 			string(static_cast<const char*>(params->param1)).substr(0, params->param2).c_str());

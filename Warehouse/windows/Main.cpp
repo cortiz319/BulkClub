@@ -27,7 +27,7 @@ void Main::render_main(zr_window *window) {
 			/* event handling */
 		}
 		if (zr_button_text(&context, "6. Add a Member", ZR_BUTTON_DEFAULT)) {
-			/* event handling */
+			changeWindow(ADDUSER);
 		}
 		zr_layout_row_static(&context, 30, 240, 3);
 		if (zr_button_text(&context, "7. Add an item", ZR_BUTTON_DEFAULT)) {
@@ -41,14 +41,15 @@ void Main::render_main(zr_window *window) {
 		}
 		zr_layout_row_static(&context, 30, 240, 3);
 		if (zr_button_text(&context, "10. Should convert to executive", ZR_BUTTON_DEFAULT)) {
-			/* event handling */
+			changeWindow(REGULARTOEXEC);
 		}
 		if (zr_button_text(&context, "11. Should convert to regular", ZR_BUTTON_DEFAULT)) {
-			/* event handling */
+			changeWindow(EXECTOREGULAR);
 		}
 		if (zr_button_text(&context, "12. Save changes", ZR_BUTTON_DEFAULT)) {
 			/* event handling */
 		}
+
 		for (int i = 0; i < 8; i++)
 		zr_layout_row_static(&context, 30, 240, 1);
 		zr_layout_row_static(&context, 30, 240, 6);

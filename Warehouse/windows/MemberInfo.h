@@ -1,20 +1,8 @@
 #ifndef WINDOWS_MEMBERINFO_H_
 #define WINDOWS_MEMBERINFO_H_
 
-#include <string>
-#include <sstream>
 #include <math.h>
 #include "Window.h"
-
-namespace patch
-{
-    template < typename T > std::string to_string( const T& n )
-    {
-        std::ostringstream stm ;
-        stm << n ;
-        return stm.str() ;
-    }
-}
 
 class MemberInfo : public Window {
 private:
@@ -25,7 +13,7 @@ private:
 	Member *curr;
 public:
 	MemberInfo(int *p_a_d, Item ** i, int *n_i, Member **m,
-			int n_m, Trip **t, int n_d) : Window(p_a_d, i, n_i, m, n_m, t, n_d) {
+			int *n_m, Trip **t, int n_d) : Window(p_a_d, i, n_i, m, n_m, t, n_d) {
 		ID = MEMBERINFO;
 		state = 0;
 		zr_edit_box_init_fixed(&eb, edit_buffer, MAX_BUFFER, NULL, NULL);

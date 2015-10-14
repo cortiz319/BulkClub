@@ -12,16 +12,17 @@ Item* search_for_item(string name, Item **is, int num) { //we should probably co
 	return (iterator >= num) ? NULL : is[iterator];
 }
 
-bool Initialize_Everything(const int num_days, const int num_members, int &num_items, Member **members, Trip **trips, Item **items, const int *purchases_a_day, const char* directory) {
+bool Initialize_Everything(const int num_days, int &num_members, int &num_items, Member **members, Trip **trips, Item **items, const int *purchases_a_day, const char* directory) {
 	//variable declaration
 	ifstream infile(string(string(directory) + "/warehouse_shoppers.txt").c_str());
 	if (!infile) return false;
 	ifstream **days;
 	string line, name;
-	int id, iterator, temp_d, temp_c, temp_v, temp_v2; //temporary dollar, temporary cents, temporary var+2
+	int id, temp_d, temp_c, temp_v, temp_v2; //temporary dollar, temporary cents, temporary var+2
 	Item *temp_i; //temporary item
 	Member *temp_m; //temporary member
 	Executive *temp_e; //temprary executive member
+	Regular *temp_r; //temprary executive member
 
 	//variable initialization
 	days = new ifstream*[num_days];
@@ -36,7 +37,7 @@ bool Initialize_Everything(const int num_days, const int num_members, int &num_i
 			return false;
 		}
 	}
-	iterator = 0;
+	num_members = 0;
 
 	//getting data from res/warehouse_shoppers.txt and populating array members
 	while (getline(infile, line)) {
@@ -47,22 +48,22 @@ bool Initialize_Everything(const int num_days, const int num_members, int &num_i
 		id = atoi(static_cast<const char*>(line.c_str()));
 		//Type
 		getline(infile, line);
-		if (line[0] == 'E') members[iterator] = new Executive();
-		else members[iterator] = new Regular();
-		members[iterator]->name = name;
-		members[iterator]->number = id;
-		members[iterator]->items_purchased = new Item[MAX_ITEMS];
-		members[iterator]->number_items_purchased = 0;
+		if (line[0] == 'E') members[num_members] = new Executive();
+		else members[num_members] = new Regular();
+		members[num_members]->name = name;
+		members[num_members]->number = id;
+		members[num_members]->items_purchased = new Item[MAX_ITEMS];
+		members[num_members]->number_items_purchased = 0;
 		//date
 		getline(infile, line);
-		members[iterator]->expiration_date.month =
+		members[num_members]->expiration_date.month =
 				atoi(static_cast<const char*>(line.substr(0, 2).c_str()));
-		members[iterator]->expiration_date.day =
+		members[num_members]->expiration_date.day =
 				atoi(static_cast<const char*>(line.substr(3, 2).c_str()));
-		members[iterator]->expiration_date.year =
+		members[num_members]->expiration_date.year =
 				atoi(static_cast<const char*>(line.substr(6, 4).c_str()));
 
-		iterator++;
+		num_members++;
 	}
 
 	//getting data from day1-5.txt and populating arrays items and trips
@@ -139,6 +140,14 @@ bool Initialize_Everything(const int num_days, const int num_members, int &num_i
 						temp_e->rebate_amount.cents += temp_v2 - ((temp_v2 / 100) * 100);
 						temp_e->rebate_amount.dollars += (temp_e->rebate_amount.cents / 100); //if cents exceeds 100 then add to dollars
 						temp_e->rebate_amount.cents -= 100 * (temp_e->rebate_amount.cents / 100); //if cents exceeds 100 then reset to 99
+					}
+				} else {
+					temp_r = dynamic_cast<Regular *>(temp_m);
+					if (temp_r != NULL) { //don't really need this check but just in case
+						temp_r->potential_rebate_amount.dollars += temp_v2 / 100;
+						temp_r->potential_rebate_amount.cents += temp_v2 - ((temp_v2 / 100) * 100);
+						temp_r->potential_rebate_amount.dollars += (temp_r->potential_rebate_amount.cents / 100); //if cents exceeds 100 then add to dollars
+						temp_r->potential_rebate_amount.cents -= 100 * (temp_r->potential_rebate_amount.cents / 100); //if cents exceeds 100 then reset to 99
 					}
 				}
 			}

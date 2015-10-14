@@ -3,8 +3,12 @@
 
 #define MAX_BUFFER  64
 
+#include <string>
+#include <sstream>
 #include <iostream>
 #include "../member/Member.h"
+#include "../member/Regular.h"
+#include "../member/Executive.h"
 #include "../util/Item.h"
 #include "../util/Trip.h"
 #include "../gui/zahnrad.h"
@@ -16,6 +20,17 @@ const int LOADER = 0;
 const int MAIN = 1;
 const int INPUTDAY = 2;
 const int MEMBERINFO = 3;
+const int REGULARTOEXEC = 7;
+const int EXECTOREGULAR = 8;
+const int ADDUSER = 9;
+
+namespace patch { //this is for to_string
+    template < typename T > std::string to_string( const T& n ) {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
 
 class Window {
 private:
@@ -26,14 +41,14 @@ protected:
 	Item **items;
 	int *num_items;
 	Member **members;
-	int num_members;
+	int *num_members;
 	Trip **trips;
 	int num_days;
 public:
 	void * return_val;
 	int ID;
 	Window(int *p_a_d, Item ** i, int *n_i, Member **m,
-			int n_m, Trip **t, int n_d) {
+			int *n_m, Trip **t, int n_d) {
 		update_data(p_a_d, i, n_i, m, n_m, t, n_d);
 		set = false;
 		ID_c = 0;
@@ -53,7 +68,7 @@ public:
 		return false;
 	}
 	void update_data(int *p_a_d, Item ** i, int *n_i,
-			Member **m, int n_m, Trip **t, int n_d) { //don't call this function
+			Member **m, int *n_m, Trip **t, int n_d) { //don't call this function
 		purchases_a_day = p_a_d;
 		items = i;
 		num_items = n_i;
@@ -63,7 +78,7 @@ public:
 		num_days = n_d;
 	}
 	void set_data(int *&p_a_d, Item **&i, int *&n_i,
-			Member **&m, int n_m, Trip **&t, int n_d) { //don't call this function
+			Member **&m, int *&n_m, Trip **&t, int n_d) { //don't call this function
 		p_a_d = purchases_a_day;
 		i = items;
 		n_i = num_items;

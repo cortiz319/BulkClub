@@ -9,6 +9,9 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "windows/AddUser.h"
+#include "windows/ExecToRegular.h"
+#include "windows/RegularToExec.h"
 #include "windows/Loader.h"
 #include "windows/MemberInfo.h"
 #include "windows/InputDay.h"
@@ -35,10 +38,10 @@ using namespace std;
 XWindow xw;
 Attributes gui;
 Window **windows;
-int num_windows = 4;
+int num_windows = 10;
 int window_index = 0;
 
-int num_members = 12; //change if needed
+int *num_members;
 int num_days = 5;
 int *purchases_a_day;
 Item **items;
@@ -120,18 +123,24 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     purchases_a_day[2] = 10; //day3
     purchases_a_day[3] = 12; //day4
     purchases_a_day[4] = 13; //day5
-    members = new Member*[num_members];
+    members = new Member*[MAX_ITEMS];
 	trips = new Trip*[num_days];
 	items = new Item*[MAX_ITEMS];
 	for (int i = 0; i < num_days; i++) trips[i] = new Trip[purchases_a_day[i]];
 	num_items = new int;
 	*num_items = 0;
+	num_members = new int;
+	*num_members = 0;
 
     windows = new Window*[num_windows];
+    for (int i = 0; i < num_windows; i++) windows[i] = NULL;
     windows[LOADER] = new Loader(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[MAIN] = new Main(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[INPUTDAY] = new InputDay(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[MEMBERINFO] = new MemberInfo(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[REGULARTOEXEC] = new RegularToExec(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[EXECTOREGULAR] = new ExecToRegular(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[ADDUSER] = new AddUser(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     //load your windows here!
 
     gui.running = true;
@@ -163,7 +172,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
         if (windows[window_index]->do_update()) {
         	windows[window_index]->set_data(purchases_a_day, items, num_items, members, num_members, trips, num_days);
         	for (int i = 0; i < num_windows; i++){
-        		if (i != window_index) windows[i]->update_data(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+        		if (i != window_index && windows[i] != NULL) windows[i]->update_data(purchases_a_day, items, num_items, members, num_members, trips, num_days);
         	}
         }
         window_index = windows[window_index]->setWindow();

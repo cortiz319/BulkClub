@@ -45,8 +45,8 @@ void MemberInfo::render_main(zr_window *window) {
 				}
 				if (iterator >= eb.glyphes && eb.glyphes != 0) {
 					iterator = 0;
-					while (iterator < num_members && members[iterator]->number != ret) iterator++;
-					if (iterator >= num_members) {
+					while (iterator < *num_members && members[iterator]->number != ret) iterator++;
+					if (iterator >= *num_members) {
 						fail = 2;
 					} else {
 						state = 3;
@@ -78,7 +78,7 @@ void MemberInfo::render_main(zr_window *window) {
 				if (eb.glyphes != 0) {
 					int iterator = 0, iterator2 = 0;
 					char *arr = static_cast<char* >(eb.buffer.memory.ptr);
-					while (iterator < num_members) {
+					while (iterator < *num_members) {
 						if (eb.glyphes != members[iterator]->name.size()) {
 							iterator++;
 							continue;
@@ -88,7 +88,7 @@ void MemberInfo::render_main(zr_window *window) {
 						iterator2 = 0;
 						iterator++;
 					}
-					if (iterator >= num_members) {
+					if (iterator >= *num_members) {
 						fail = 2;
 					} else {
 						state = 3;
