@@ -54,8 +54,6 @@ Trip **trips; //it's ra1ning 2-dimensional arrays!
 
 //GUI documentation: https://github.com/vurtun/zahnrad
 
-//Current GUI issues: Space bar doesn't work right
-
 LRESULT CALLBACK wnd_proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
     case WM_DESTROY:
