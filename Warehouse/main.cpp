@@ -54,6 +54,15 @@ Trip **trips; //it's ra1ning 2-dimensional arrays!
 
 //GUI documentation: https://github.com/vurtun/zahnrad
 
+// How to add a window
+// 1. Add new .h and .cpp file to 'windows' folder
+// 2. Create class and include Window publically
+// 3. Implement class. Take a look at other windows as an example.
+// 4. Include .h file above
+// 5. Go to line 133 (approx.) here and initialize you class (follow format exactly of other classes)
+// 6. Go to Window.h and add a const int for your class
+// 7. Happiness!
+
 LRESULT CALLBACK wnd_proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     switch (msg) {
     case WM_DESTROY:
