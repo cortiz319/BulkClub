@@ -1,8 +1,20 @@
 #ifndef WINDOWS_MEMBERINFO_H_
 #define WINDOWS_MEMBERINFO_H_
 
+#include <string>
+#include <sstream>
 #include <math.h>
 #include "Window.h"
+
+namespace patch
+{
+    template < typename T > std::string to_string( const T& n )
+    {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
 
 class MemberInfo : public Window {
 private:

@@ -51,6 +51,7 @@ void MemberInfo::render_main(zr_window *window) {
 					} else {
 						state = 3;
 						fail = 0;
+						curr = members[iterator];
 					}
 				} else {
 					fail = 1;
@@ -78,6 +79,10 @@ void MemberInfo::render_main(zr_window *window) {
 					int iterator = 0, iterator2 = 0;
 					char *arr = static_cast<char* >(eb.buffer.memory.ptr);
 					while (iterator < num_members) {
+						if (eb.glyphes != members[iterator]->name.size()) {
+							iterator++;
+							continue;
+						}
 						while (iterator2 < eb.glyphes && arr[iterator2] == members[iterator]->name[iterator2]) iterator2++;
 						if (iterator2 >= eb.glyphes) break;
 						iterator2 = 0;
@@ -88,6 +93,7 @@ void MemberInfo::render_main(zr_window *window) {
 					} else {
 						state = 3;
 						fail = 0;
+						curr = members[iterator];
 					}
 				} else {
 					fail = 1;
@@ -101,7 +107,32 @@ void MemberInfo::render_main(zr_window *window) {
 				fail = false;
 			}
 		} else if (state == 3) {
-
+			zr_header(&context, "Member info", 0, 0, ZR_HEADER_LEFT);
+			zr_layout_row_dynamic(&context, 30, 1);
+			if (curr == NULL) { //should never happen but it's a pre-caution
+				zr_label(&context, "Error! Something went wrong", ZR_TEXT_LEFT);
+				for (int i = 0; i < 12; i++)
+				zr_layout_row_static(&context, 30, 240, 1);
+				zr_layout_row_static(&context, 30, 240, 6);
+				if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) {
+					state = 0;
+					fail = false;
+				}
+			} else {
+				zr_label(&context, string("Here is the purchase history for " + curr->name + " (ID:" + patch::to_string(curr->number) + ")").c_str(), ZR_TEXT_LEFT);
+				for (int i = 0; i < curr->number_items_purchased; i++) {
+					zr_layout_row_dynamic(&context, 30, 3);
+					zr_label(&context, string(" - " + curr->items_purchased[i].item_name).c_str(), ZR_TEXT_LEFT);
+					zr_label(&context, string("Price: " + patch::to_string(curr->items_purchased[i].price.dollars) + "." + ((curr->items_purchased[i].price.cents > 9) ? patch::to_string(curr->items_purchased[i].price.cents) : ("0" + patch::to_string(curr->items_purchased[i].price.cents)))).c_str(), ZR_TEXT_LEFT);
+					zr_label(&context, string("Quantity purchased: " + patch::to_string(curr->items_purchased[i].quantity_sold)).c_str(), ZR_TEXT_LEFT);
+				}
+				zr_layout_row_static(&context, 30, 240, 1);
+				zr_layout_row_static(&context, 30, 240, 6);
+				if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) {
+					state = 0;
+					fail = false;
+				}
+			}
 		}
 	}
 	zr_end(&context, window);
