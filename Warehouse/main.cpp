@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "windows/SalesReport.h"
 #include "windows/AddUser.h"
 #include "windows/ExecToRegular.h"
 #include "windows/RegularToExec.h"

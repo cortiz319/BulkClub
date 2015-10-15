@@ -2,28 +2,11 @@
 #define WINDOWS_SALESREPORT_H_
 
 #include "../core/Initializer.h"
-#include <string>
-#include <sstream>
-
-namespace patch1
-{
-    template < typename T > std::string to_string( const T& n )
-    {
-        std::ostringstream stm ;
-        stm << n ;
-        return stm.str() ;
-    }
-}
-
 #include "Window.h"
 
 class SalesReport : public Window {
 
 private:
-//	zr_edit_box eb;
-//	zr_char edit_buffer[MAX_BUFFER];
-
-
 	char ** values;
 	char ** days;
 	zr_size selected, size, selected_days;
@@ -54,13 +37,6 @@ public:
 		days[2] = "Day 3";
 		days[3] = "Day 4";
 		days[4] = "Day 5";
-
-//		for(int i = 0 ; i < num_days; i++)
-//		{
-//			string day = patch1::to_string(i+1);
-//			string day_s = "Day" + day;
-//			days[i] = "days";
-//		}
 
 	}
 	~SalesReport(){}
