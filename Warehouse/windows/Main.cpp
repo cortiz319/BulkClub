@@ -11,7 +11,7 @@ void Main::render_main(zr_window *window) {
 		zr_label(&context, "Please select an option:", ZR_TEXT_LEFT);
 		zr_layout_row_static(&context, 30, 240, 3);
 		if (zr_button_text(&context, "1. Sales Report", ZR_BUTTON_DEFAULT)) {
-			changeWindow(INPUTDAY);
+			changeWindow(SALESREPORT);
 		}
 		if (zr_button_text(&context, "2. Total purchases", ZR_BUTTON_DEFAULT)) {
 			/* event handling */
