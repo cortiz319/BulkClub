@@ -33,7 +33,6 @@ void SalesReport::render_main(zr_window *window){
 					selected = i;
 				}
 			}
-
 		}
 
 		zr_combo_end(&context, &layout, &active);

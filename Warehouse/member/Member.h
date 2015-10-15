@@ -23,8 +23,24 @@ public:
 	Member_t member_type;
 	Date expiration_date;
 	Item *items_purchased;
-	Member() { total_spent.cents = 0; total_spent.dollars = 0; }
-	virtual ~Member() {}
+	Member() { total_spent.cents = 0; total_spent.dollars = 0; items_purchased = NULL; number_items_purchased = 0; }
+	Member(const Member &member) {
+		expiration_date = member.expiration_date;
+		name = member.name;
+		if (member.number_items_purchased != 0) {
+			items_purchased = new Item[member.number_items_purchased];
+			for (int i = 0; i < member.number_items_purchased; i++)
+				items_purchased[i] = member.items_purchased[i];
+		} else {
+			items_purchased = NULL;
+			number_items_purchased = 0;
+		}
+		number_items_purchased = member.number_items_purchased;
+		number = member.number;
+		total_spent = member.total_spent;
+		member_type = member.member_type;
+	}
+	virtual ~Member() { if (items_purchased != NULL) delete [] items_purchased; }
 };
 
 #endif /* MEMBER_H_ */

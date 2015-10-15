@@ -3,6 +3,7 @@
 
 #define MAX_BUFFER  64
 
+#include <math.h>
 #include <string>
 #include <sstream>
 #include <iostream>

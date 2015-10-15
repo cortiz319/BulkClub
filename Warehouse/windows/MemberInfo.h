@@ -1,7 +1,6 @@
 #ifndef WINDOWS_MEMBERINFO_H_
 #define WINDOWS_MEMBERINFO_H_
 
-#include <math.h>
 #include "Window.h"
 
 class MemberInfo : public Window {

@@ -26,7 +26,7 @@ void Main::render_main(zr_window *window) {
 		if (zr_button_text(&context, "5. Membership expirations", ZR_BUTTON_DEFAULT)) {
 			/* event handling */
 		}
-		if (zr_button_text(&context, "6. Add a Member", ZR_BUTTON_DEFAULT)) {
+		if (zr_button_text(&context, "6. Modify members", ZR_BUTTON_DEFAULT)) {
 			changeWindow(ADDUSER);
 		}
 		zr_layout_row_static(&context, 30, 240, 3);
