@@ -20,6 +20,7 @@ const int LOADER = 0;
 const int MAIN = 1;
 const int INPUTDAY = 2;
 const int MEMBERINFO = 3;
+const int SALESREPORT = 4;
 const int REGULARTOEXEC = 7;
 const int EXECTOREGULAR = 8;
 const int ADDUSER = 9;
