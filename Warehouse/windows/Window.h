@@ -25,6 +25,7 @@ const int SALESREPORT = 4;
 const int REGULARTOEXEC = 7;
 const int EXECTOREGULAR = 8;
 const int ADDUSER = 9;
+const int TOTALPURCHASES = 10;
 
 namespace patch { //this is for to_string
     template < typename T > std::string to_string( const T& n ) {
