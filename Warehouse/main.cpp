@@ -137,6 +137,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     windows[LOADER] = new Loader(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[MAIN] = new Main(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[INPUTDAY] = new InputDay(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[SALESREPORT] = new SalesReport(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[MEMBERINFO] = new MemberInfo(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[REGULARTOEXEC] = new RegularToExec(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[EXECTOREGULAR] = new ExecToRegular(purchases_a_day, items, num_items, members, num_members, trips, num_days);
