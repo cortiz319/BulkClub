@@ -14,7 +14,7 @@ void Main::render_main(zr_window *window) {
 			changeWindow(SALESREPORT);
 		}
 		if (zr_button_text(&context, "2. Total purchases", ZR_BUTTON_DEFAULT)) {
-			/* event handling */
+			changeWindow(TOTALPURCHASES)/
 		}
 		if (zr_button_text(&context, "3. Quantity sold", ZR_BUTTON_DEFAULT)) {
 			/* event handling */
