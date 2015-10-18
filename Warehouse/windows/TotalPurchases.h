@@ -21,5 +21,4 @@ public:
 	void render_main(zr_window *window);
 };
 
-
 #endif /* WINDOWS_TOTALPURCHASES_H_ */
