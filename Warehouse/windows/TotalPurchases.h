@@ -3,7 +3,6 @@
 
 
 #include "../core/Initializer.h"
-
 #include "Window.h"
 
 class TotalPurchases : public Window {
@@ -17,13 +16,10 @@ public:
 		ID = TOTALPURCHASES;
 		state = 0;
 		fail = 0;
-
-
 	}
 	~TotalPurchases(){}
 	void render_main(zr_window *window);
 };
-
 
 
 #endif /* WINDOWS_TOTALPURCHASES_H_ */
