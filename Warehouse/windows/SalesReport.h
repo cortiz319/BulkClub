@@ -3,6 +3,7 @@
 
 #include "../core/Initializer.h"
 #include "Window.h"
+#include <cstring>
 
 class SalesReport : public Window {
 
@@ -11,6 +12,7 @@ private:
 	char ** days;
 	zr_size selected, size, selected_days;
 	zr_state active, active_d;
+	char* dateToChar;
 	int state;
 	int fail;
 public:
@@ -28,21 +30,22 @@ public:
 		active = false;
 		active_d = false;
 
+		// Just In Case
+		for(int i = 0; i < num_days; i++)
+		{
+			days[i] = "Day";
+		}
+
 		values[0] = "Default";
 		values[1] = "Regular";
 		values[2] = "Executive";
 
-		days[0] = "Day 1";
-		days[1] = "Day 2";
-		days[2] = "Day 3";
-		days[3] = "Day 4";
-		days[4] = "Day 5";
-
 	}
-	~SalesReport(){}
+	~SalesReport(){
+		delete [] days;
+		delete [] dateToChar;
+	}
 	void render_main(zr_window *window);
 };
-
-
 
 #endif /* WINDOWS_SALESREPORT_H_ */
