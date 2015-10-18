@@ -16,6 +16,7 @@
 #include "windows/RegularToExec.h"
 #include "windows/Loader.h"
 #include "windows/MemberInfo.h"
+#include "windows/InfoItem.h"
 #include "windows/InputDay.h"
 #include "windows/Window.h"
 #include "windows/Main.h"
@@ -144,6 +145,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     windows[REGULARTOEXEC] = new RegularToExec(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[EXECTOREGULAR] = new ExecToRegular(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[ADDUSER] = new AddUser(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[INFOITEM] = new InfoItem(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     //load your windows here!
 
     gui.running = true;
