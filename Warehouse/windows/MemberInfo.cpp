@@ -104,7 +104,7 @@ void MemberInfo::render_main(zr_window *window) {
 			zr_layout_row_static(&context, 30, 240, 6);
 			if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) {
 				state = 0;
-				fail = false;
+				fail = 0;
 			}
 		} else if (state == 3) {
 			zr_header(&context, "Member info", 0, 0, ZR_HEADER_LEFT);

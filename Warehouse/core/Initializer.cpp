@@ -12,7 +12,7 @@ Item* search_for_item(string name, Item **is, int num) { //we should probably co
 	return (iterator >= num) ? NULL : is[iterator];
 }
 
-bool Initialize_Everything(const int num_days, int &num_members, int &num_items, Member **members, Trip **trips, Item **items, const int *purchases_a_day, const char* directory) {
+bool Initialize_Everything(const int num_days, int &num_members, int &num_items, Member **members, Trip **trips, Item **items, int *purchases_a_day, const char* directory) {
 	//variable declaration
 	ifstream infile(string(string(directory) + "/warehouse_shoppers.txt").c_str());
 	if (!infile) return false;
@@ -68,28 +68,27 @@ bool Initialize_Everything(const int num_days, int &num_members, int &num_items,
 
 	//getting data from day1-5.txt and populating arrays items and trips
 	for (int i = 0; i < num_days; i++) {
-		for (int k = 0; k < purchases_a_day[i]; k++) {
-			getline(*days[i], line);
+		while (getline(*days[i], line)) {
 			//date
 			//these are not real two dimensional arrays, don't be fooled
-			trips[i][k].purchase_date.month =
+			trips[i][purchases_a_day[i]].purchase_date.month =
 					atoi(static_cast<const char*>(line.substr(0, 2).c_str()));
-			trips[i][k].purchase_date.day =
+			trips[i][purchases_a_day[i]].purchase_date.day =
 					atoi(static_cast<const char*>(line.substr(3, 2).c_str()));
-			trips[i][k].purchase_date.year =
+			trips[i][purchases_a_day[i]].purchase_date.year =
 					atoi(static_cast<const char*>(line.substr(6, 4).c_str()));
 			//ID
 			getline(*days[i], line);
-			trips[i][k].id = atoi(static_cast<const char*>(line.c_str()));
+			trips[i][purchases_a_day[i]].id = atoi(static_cast<const char*>(line.c_str()));
 			//name
 			getline(*days[i], line);
 			temp_i = search_for_item(line, items, num_items);
 			if (temp_i != NULL) {
-				trips[i][k].item = temp_i;
+				trips[i][purchases_a_day[i]].item = temp_i;
 				//quantity
 				getline(*days[i], line);
-				trips[i][k].quantity = atoi(static_cast<const char*>(line.substr(line.find('.')+ 3).c_str()));
-				temp_i->quantity_sold += trips[i][k].quantity;
+				trips[i][purchases_a_day[i]].quantity = atoi(static_cast<const char*>(line.substr(line.find('.')+ 3).c_str()));
+				temp_i->quantity_sold += trips[i][purchases_a_day[i]].quantity;
 			} else {
 				items[num_items] = new Item();
 				items[num_items]->quantity_sold = 0;
@@ -98,15 +97,15 @@ bool Initialize_Everything(const int num_days, int &num_members, int &num_items,
 				//price
 				items[num_items]->price.dollars = atoi(static_cast<const char*>(line.substr(0, line.find('.')).c_str()));
 				items[num_items]->price.cents = atoi(static_cast<const char*>(line.substr(line.find('.') + 1, 2).c_str()));
-				trips[i][k].item = items[num_items];
+				trips[i][purchases_a_day[i]].item = items[num_items];
 				//quantity
-				trips[i][k].quantity = atoi(static_cast<const char*>(line.substr(line.find('.')+ 3).c_str()));
-				items[num_items]->quantity_sold += trips[i][k].quantity;
+				trips[i][purchases_a_day[i]].quantity = atoi(static_cast<const char*>(line.substr(line.find('.')+ 3).c_str()));
+				items[num_items]->quantity_sold += trips[i][purchases_a_day[i]].quantity;
 				num_items++;
 			}
+			purchases_a_day[i]++;
 		}
 	}
-
 	//processing days 1-5
 	for (int i = 0; i < num_days; i++) {
 		for (int k = 0; k < purchases_a_day[i]; k++) {

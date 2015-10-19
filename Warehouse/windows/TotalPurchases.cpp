@@ -58,8 +58,7 @@ void TotalPurchases::render_main(zr_window *window)
 			// Runs through all the days (
 			for(int k = 0; k < num_days; k++)
 			{
-				for(int j = 0; j < purchases_a_day[k]; j++)
-				{
+				for(int j = 0; j < purchases_a_day[k]; j++) {
 					if(membersList[i]->number == trips[k][j].id)
 					{
 						purchase = true;

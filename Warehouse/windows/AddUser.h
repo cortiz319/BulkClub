@@ -5,6 +5,8 @@
 
 const int NAME = 0;
 const int NUMBER = 1;
+const int S_NAME = 2;
+const int S_NUMBER = 3;
 
 class AddUser : public Window {
 private:

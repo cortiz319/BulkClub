@@ -148,11 +148,11 @@ void AddUser::render_main(zr_window* window) {
 			zr_label(&context, "How would you like to search for the member?:", ZR_TEXT_LEFT);
 			zr_layout_row_static(&context, 30, 240, 3);
 			if (zr_button_text(&context, "Search by member number", ZR_BUTTON_DEFAULT)) {
-				state = 1;
+				state = 4;
 				fail = 0;
 			}
 			if (zr_button_text(&context, "Search by member name", ZR_BUTTON_DEFAULT)) {
-				state = 2;
+				state = 5;
 				fail = 0;
 			}
 			for (int i = 0; i < 11; i++)
@@ -176,6 +176,139 @@ void AddUser::render_main(zr_window* window) {
 				fail = 0;
 			}
 			for (int i = 0; i < 11; i++)
+			zr_layout_row_static(&context, 30, 240, 1);
+			zr_layout_row_static(&context, 30, 240, 6);
+			if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) {
+				state = 0;
+				fail = 0;
+			}
+		} else if (state == 4) {
+			zr_header(&context, "Delete User - Search by member number", 0, 0, ZR_HEADER_LEFT);
+			zr_layout_row_dynamic(&context, 30, 1);
+			if (fail == 1) zr_label(&context, "Error! Could not read input number, please try again", ZR_TEXT_LEFT);
+			if (fail == 2) zr_label(&context, "Error! Could not find member", ZR_TEXT_LEFT);
+			if (fail == 3) zr_label(&context, "Success! Deleted member", ZR_TEXT_LEFT); //not really a fail
+			zr_layout_row_dynamic(&context, 30, 1);
+			zr_label(&context, "Please input a number:", ZR_TEXT_LEFT);
+			zr_layout_row_static(&context, 30, 240, 3);
+			zr_editbox(&context, eb[S_NUMBER]);
+			zr_layout_row_dynamic(&context, 30, 6);
+			if (zr_button_text(&context, "Submit", ZR_BUTTON_DEFAULT)) {
+				int iterator = 0, mult = eb[S_NUMBER]->glyphes - 1, ret = 0;
+				char *arr = static_cast<char* >(eb[S_NUMBER]->buffer.memory.ptr);
+				while (iterator < eb[S_NUMBER]->glyphes && arr[iterator] >= 48 && arr[iterator] <= 57) {
+					ret += int(arr[iterator] - 48) * round(pow(10, mult));
+					mult--;
+					iterator++;
+				}
+				if (iterator >= eb[S_NUMBER]->glyphes && eb[S_NUMBER]->glyphes != 0) {
+					iterator = 0;
+					while (iterator < *num_members && members[iterator]->number != ret) iterator++;
+					if (iterator >= *num_members) {
+						fail = 2;
+					} else {
+						fail = 3;
+						int off = 0;
+						Member** temp = members;
+						*num_members -= 1;
+						Member** temp2 = new Member*[*num_members];
+						for (int i = 0; i < *num_members + 1; i++) if (i != iterator) temp2[i - off] = new Member(*temp[i]); else off++;
+						Trip** temp_t = new Trip*[num_days];
+						int *p_a_d = new int[num_days];
+						for (int i = 0; i < num_days; i++) temp_t[i] = new Trip[MAX_ITEMS];
+						for (int i = 0; i < num_days; i++) p_a_d[i] = 0;
+						for (int i = 0; i < num_days; i++) {
+							for (int k = 0; k < purchases_a_day[i]; k++) {
+								if (trips[i][k].id == members[iterator]->number) {
+									trips[i][k].item->quantity_sold -= trips[i][k].quantity; //thank you pointer! risky move though
+								} else {
+									temp_t[i][p_a_d[i]] = trips[i][k];
+									p_a_d[i]++;
+								}
+							}
+						}
+						for (int i = 0; i < num_days; i++) delete trips[i];
+						delete [] trips;
+						trips = temp_t;
+						purchases_a_day = p_a_d;
+						members = temp2;
+						for (int i = 0; i < *num_members + 1; i++) delete temp[i];
+						delete [] temp;
+						issue_update(); //super important!
+					}
+				} else {
+					fail = 1;
+				}
+			}
+			for (int i = 0; i < 9; i++)
+			zr_layout_row_static(&context, 30, 240, 1);
+			zr_layout_row_static(&context, 30, 240, 6);
+			if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) {
+				state = 2;
+				fail = 0;
+			}
+		} else if (state == 5) {
+			zr_header(&context, "Delete User - Search by member name", 0, 0, ZR_HEADER_LEFT);
+			zr_layout_row_dynamic(&context, 30, 1);
+			if (fail == 1) zr_label(&context, "Error! Empty field", ZR_TEXT_LEFT);
+			if (fail == 2) zr_label(&context, "Error! Could not find member", ZR_TEXT_LEFT);
+			if (fail == 3) zr_label(&context, "Success! Deleted member", ZR_TEXT_LEFT); //not really a fail
+			zr_layout_row_dynamic(&context, 30, 1);
+			zr_label(&context, "Please input a name:", ZR_TEXT_LEFT);
+			zr_layout_row_static(&context, 30, 240, 3);
+			zr_editbox(&context, eb[S_NAME]);
+			zr_layout_row_dynamic(&context, 30, 6);
+			if (zr_button_text(&context, "Submit", ZR_BUTTON_DEFAULT)) {
+				if (eb[S_NAME]->glyphes != 0) {
+					int iterator = 0, iterator2 = 0;
+					char *arr = static_cast<char* >(eb[S_NAME]->buffer.memory.ptr);
+					while (iterator < *num_members) {
+						if (eb[S_NAME]->glyphes != members[iterator]->name.size()) {
+							iterator++;
+							continue;
+						}
+						while (iterator2 < eb[S_NAME]->glyphes && arr[iterator2] == members[iterator]->name[iterator2]) iterator2++;
+						if (iterator2 >= eb[S_NAME]->glyphes) break;
+						iterator2 = 0;
+						iterator++;
+					}
+					if (iterator >= *num_members) {
+						fail = 2;
+					} else {
+						fail = 3;
+						int off = 0;
+						Member** temp = members;
+						*num_members -= 1;
+						Member** temp2 = new Member*[*num_members];
+						for (int i = 0; i < *num_members + 1; i++) if (i != iterator) temp2[i - off] = new Member(*temp[i]); else off++;
+						Trip** temp_t = new Trip*[num_days];
+						int *p_a_d = new int[num_days];
+						for (int i = 0; i < num_days; i++) temp_t[i] = new Trip[MAX_ITEMS];
+						for (int i = 0; i < num_days; i++) p_a_d[i] = 0;
+						for (int i = 0; i < num_days; i++) {
+							for (int k = 0; k < purchases_a_day[i]; k++) {
+								if (trips[i][k].id == members[iterator]->number) {
+									trips[i][k].item->quantity_sold -= trips[i][k].quantity; //thank you pointer! risky move though
+								} else {
+									temp_t[i][p_a_d[i]] = trips[i][k];
+									p_a_d[i]++;
+								}
+							}
+						}
+						for (int i = 0; i < num_days; i++) delete trips[i];
+						delete [] trips;
+						trips = temp_t;
+						purchases_a_day = p_a_d;
+						members = temp2;
+						for (int i = 0; i < *num_members + 1; i++) delete temp[i];
+						delete [] temp;
+						issue_update(); //super important!
+					}
+				} else {
+					fail = 1;
+				}
+			}
+			for (int i = 0; i < 9; i++)
 			zr_layout_row_static(&context, 30, 240, 1);
 			zr_layout_row_static(&context, 30, 240, 6);
 			if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) {

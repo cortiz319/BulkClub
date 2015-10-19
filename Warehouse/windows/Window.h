@@ -2,6 +2,7 @@
 #define WINDOWS_WINDOW_H_
 
 #define MAX_BUFFER  64
+#define MAX_ITEMS 256
 
 #include <math.h>
 #include <string>
@@ -19,7 +20,7 @@ using namespace std;
 //make sure you add your window to the archive here!
 const int LOADER = 0;
 const int MAIN = 1;
-const int INPUTDAY = 2;
+const int INPUTDAY = 2; //usable
 const int MEMBERINFO = 3;
 const int SALESREPORT = 4;
 const int REGULARTOEXEC = 7;

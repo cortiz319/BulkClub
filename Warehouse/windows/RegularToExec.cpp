@@ -9,15 +9,11 @@ void RegularToExec::render_main(zr_window* window) {
 		zr_label(&context, "The following members should convert from Regular to Executive:", ZR_TEXT_LEFT);
 		for (int i = 0; i < *num_members; i++) {
 			if (members[i]->member_type == REGULAR && (members[i]->total_spent.dollars * 3 / 100) > 55) {
-				temp_r = dynamic_cast<Regular *>(members[i]);
+				temp_r = static_cast<Regular *>(members[i]);
 				zr_layout_row_static(&context, 30, 240, 3);
-				if (temp_r == NULL) { //will probably never happen but just in case
-					zr_label(&context, "Something went wrong in displaying this member", ZR_TEXT_LEFT);
-				} else {
-					zr_label(&context, string(" - " + temp_r->name + " (ID:" + patch::to_string(temp_r->number) + ")").c_str(), ZR_TEXT_LEFT);
-					zr_label(&context, string("Spent: " + patch::to_string(temp_r->total_spent.dollars) + "." + ((temp_r->total_spent.cents > 9) ? patch::to_string(temp_r->total_spent.cents) : ("0" + patch::to_string(temp_r->total_spent.cents)))).c_str(), ZR_TEXT_LEFT);
-					zr_label(&context, string("Potential rebate: " + patch::to_string(temp_r->potential_rebate_amount.dollars) + "." + ((temp_r->potential_rebate_amount.cents > 9) ? patch::to_string(temp_r->potential_rebate_amount.cents) : ("0" + patch::to_string(temp_r->potential_rebate_amount.cents)))).c_str(), ZR_TEXT_LEFT);
-				}
+				zr_label(&context, string(" - " + temp_r->name + " (ID:" + patch::to_string(temp_r->number) + ")").c_str(), ZR_TEXT_LEFT);
+				zr_label(&context, string("Spent: " + patch::to_string(temp_r->total_spent.dollars) + "." + ((temp_r->total_spent.cents > 9) ? patch::to_string(temp_r->total_spent.cents) : ("0" + patch::to_string(temp_r->total_spent.cents)))).c_str(), ZR_TEXT_LEFT);
+				zr_label(&context, string("Potential rebate: " + patch::to_string(temp_r->potential_rebate_amount.dollars) + "." + ((temp_r->potential_rebate_amount.cents > 9) ? patch::to_string(temp_r->potential_rebate_amount.cents) : ("0" + patch::to_string(temp_r->potential_rebate_amount.cents)))).c_str(), ZR_TEXT_LEFT);
 			}
 		}
 		zr_layout_row_static(&context, 30, 240, 6);

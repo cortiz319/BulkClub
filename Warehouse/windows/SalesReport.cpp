@@ -75,20 +75,20 @@ void SalesReport::render_main(zr_window *window){
 				if(selected == 1 && compare->member_type == 0){
 					zr_layout_row_dynamic(&context, 30, 3);
 					zr_label(&context, trips[selected_days][i].item->item_name.c_str() , ZR_TEXT_LEFT);
-					zr_label(&context, patch::to_string(trips[selected_days][i].item->quantity_sold).c_str() , ZR_TEXT_LEFT);
+					zr_label(&context, patch::to_string(trips[selected_days][i].quantity).c_str() , ZR_TEXT_LEFT);
 					zr_label(&context, string("$" + patch::to_string(trips[selected_days][i].item->price.dollars) + "." + ((trips[selected_days][i].item->price.cents > 9) ? patch::to_string(trips[selected_days][i].item->price.cents) : ("0" + patch::to_string(trips[selected_days][i].item->price.cents)))).c_str(), ZR_TEXT_LEFT);
 					revenue += (trips[selected_days][i].item->price.dollars * trips[selected_days][i].item->price.cents/100.0) * trips[selected_days][i].item->quantity_sold;
 
 				} else if(selected == 2 && compare->member_type == 1) {
 					zr_layout_row_dynamic(&context, 30, 3);
 					zr_label(&context, trips[selected_days][i].item->item_name.c_str() , ZR_TEXT_LEFT);
-					zr_label(&context, patch::to_string(trips[selected_days][i].item->quantity_sold).c_str() , ZR_TEXT_LEFT);
+					zr_label(&context, patch::to_string(trips[selected_days][i].quantity).c_str() , ZR_TEXT_LEFT);
 					zr_label(&context, string("$" + patch::to_string(trips[selected_days][i].item->price.dollars) + "." + ((trips[selected_days][i].item->price.cents > 9) ? patch::to_string(trips[selected_days][i].item->price.cents) : ("0" + patch::to_string(trips[selected_days][i].item->price.cents)))).c_str(), ZR_TEXT_LEFT);
 					revenue += (trips[selected_days][i].item->price.dollars * trips[selected_days][i].item->price.cents/100.0) * trips[selected_days][i].item->quantity_sold;
 				} else if(selected == 0){
 					zr_layout_row_dynamic(&context, 30, 3);
 					zr_label(&context, trips[selected_days][i].item->item_name.c_str() , ZR_TEXT_LEFT);
-					zr_label(&context, patch::to_string(trips[selected_days][i].item->quantity_sold).c_str() , ZR_TEXT_LEFT);
+					zr_label(&context, patch::to_string(trips[selected_days][i].quantity).c_str() , ZR_TEXT_LEFT);
 					zr_label(&context, string("$" + patch::to_string(trips[selected_days][i].item->price.dollars) + "." + ((trips[selected_days][i].item->price.cents > 9) ? patch::to_string(trips[selected_days][i].item->price.cents) : ("0" + patch::to_string(trips[selected_days][i].item->price.cents)))).c_str(), ZR_TEXT_LEFT);
 					revenue += (trips[selected_days][i].item->price.dollars * trips[selected_days][i].item->price.cents/100.0) * trips[selected_days][i].item->quantity_sold;
 				}
@@ -100,7 +100,7 @@ void SalesReport::render_main(zr_window *window){
 			zr_layout_row_dynamic(&context, 30, 1);
 			zr_label(&context, ("MEMBER NAMES:"), ZR_TEXT_LEFT);
 
-			for(int i =0; i < purchases_a_day[selected_days]; i++)
+			for(int i = 0; i < purchases_a_day[selected_days]; i++)
 			{
 				j = i+1;
 				searchMem = search_for_member(trips[selected_days][i].id, members, *num_members);
@@ -140,12 +140,12 @@ void SalesReport::render_main(zr_window *window){
 				zr_label(&context, ("EXECUTIVE MEMBERS: " + patch::to_string(numExec)).c_str(), ZR_TEXT_LEFT);
 			} else if(selected == 1) {
 					zr_layout_row_dynamic(&context, 30, 1);
-					zr_label(&context, ("REGULAR MEMBERS: " + patch::to_string(numExec)).c_str(), ZR_TEXT_LEFT);
+					zr_label(&context, ("REGULAR MEMBERS: " + patch::to_string(numReg)).c_str(), ZR_TEXT_LEFT);
 			} else if(selected == 0){
 				zr_layout_row_dynamic(&context, 30, 1);
 				zr_label(&context, ("EXECUTIVE MEMBERS: " + patch::to_string(numExec)).c_str(), ZR_TEXT_LEFT);
 				zr_layout_row_dynamic(&context, 30, 1);
-				zr_label(&context, ("REGULAR MEMBERS: " + patch::to_string(numExec)).c_str(), ZR_TEXT_LEFT);
+				zr_label(&context, ("REGULAR MEMBERS: " + patch::to_string(numReg)).c_str(), ZR_TEXT_LEFT);
 			}
 
 			zr_layout_row_dynamic(&context, 30, 2);
