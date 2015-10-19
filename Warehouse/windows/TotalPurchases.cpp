@@ -96,7 +96,7 @@ void TotalPurchases::render_main(zr_window *window)
     	zr_layout_row_dynamic(&context, 30, 1);
 		zr_label(&context, ("GRAND TOTAL PRICE: $" + patch::to_string(grandPtotal)).c_str() , ZR_TEXT_LEFT);
 
-
+		zr_layout_row_static(&context, 30, 240, 6);
 		if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) { changeWindow(MAIN);}
 
 	}

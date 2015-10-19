@@ -124,15 +124,11 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     set_style(&gui.style);
 
     purchases_a_day = new int[5];
-    purchases_a_day[0] = 13; //day1
-    purchases_a_day[1] = 12; //day2
-    purchases_a_day[2] = 10; //day3
-    purchases_a_day[3] = 12; //day4
-    purchases_a_day[4] = 13; //day5
     members = new Member*[MAX_ITEMS];
 	trips = new Trip*[num_days];
 	items = new Item*[MAX_ITEMS];
-	for (int i = 0; i < num_days; i++) trips[i] = new Trip[purchases_a_day[i]];
+	for (int i = 0; i < num_days; i++) trips[i] = new Trip[MAX_ITEMS];
+	for (int i = 0; i < num_days; i++) purchases_a_day[i] = 0;
 	num_items = new int;
 	*num_items = 0;
 	num_members = new int;
@@ -152,7 +148,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     windows[INFOQUANTITY] = new InfoQuantity(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[REBATES] = new Rebates(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[EXPIRE] = new MemberExpiration(purchases_a_day, items, num_items, members, num_members, trips, num_days);
-//load your windows here!
+    //load your windows here!
 
     gui.running = true;
 
