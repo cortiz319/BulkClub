@@ -10,6 +10,7 @@ struct Item {
 	Price price;
 	string item_name;
 	int quantity_sold;
+	bool deleted = false;
 };
 
 #endif /* ITEM_H_ */
