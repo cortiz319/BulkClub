@@ -31,7 +31,7 @@ void Main::render_main(zr_window *window) {
 		}
 		zr_layout_row_static(&context, 30, 240, 3);
 		if (zr_button_text(&context, "7. Add an item", ZR_BUTTON_DEFAULT)) {
-			/* event handling */
+			changeWindow(ADDITEM);
 		}
 		if (zr_button_text(&context, "8. Get info on item", ZR_BUTTON_DEFAULT)) {
 			changeWindow(INFOITEM);
