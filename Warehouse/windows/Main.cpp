@@ -47,7 +47,7 @@ void Main::render_main(zr_window *window) {
 			changeWindow(EXECTOREGULAR);
 		}
 		if (zr_button_text(&context, "12. Save changes", ZR_BUTTON_DEFAULT)) {
-			/* event handling */
+			changeWindow(SAVEDATA);
 		}
 
 		for (int i = 0; i < 8; i++)

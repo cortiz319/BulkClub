@@ -1,5 +1,13 @@
 #include "Initializer.h"
 
+namespace patch { //this is for to_string
+    template < typename T > std::string to_string( const T& n ) {
+        std::ostringstream stm ;
+        stm << n ;
+        return stm.str() ;
+    }
+}
+
 Member* search_for_member(int ID, Member **members, int num) { //also consider making this more efficient as well
 	int iterator = 0;
 	while (iterator < num && members[iterator]->number != ID) { iterator++; }
@@ -12,9 +20,9 @@ Item* search_for_item(string name, Item **is, int num) { //we should probably co
 	return (iterator >= num) ? NULL : is[iterator];
 }
 
-bool Initialize_Everything(const int num_days, int &num_members, int &num_items, Member **members, Trip **trips, Item **items, int *purchases_a_day, const char* directory) {
+bool Initialize_Everything(const int num_days, int &num_members, int &num_items, Member **members, Trip **trips, Item **items, int *purchases_a_day, const char* directory, bool orig) {
 	//variable declaration
-	ifstream infile(string(string(directory) + "/warehouse_shoppers.txt").c_str());
+	ifstream infile(string(string(directory) + "/warehouse_shoppers" + ((orig) ? "_orig" : "") + ".txt").c_str());
 	if (!infile) return false;
 	ifstream **days;
 	string line, name;
@@ -28,7 +36,7 @@ bool Initialize_Everything(const int num_days, int &num_members, int &num_items,
 	days = new ifstream*[num_days];
 	for (int i = 0; i < num_days; i++) days[i] = NULL;
 	for (char i = 49; i < num_days + 49; i++) {
-		days[i - 49] = new ifstream(string(string(directory) + "/day" + string(1, i) + ".txt").c_str());
+		days[i - 49] = new ifstream(string(string(directory) + "/day" + string(1, i) + ((orig) ? "_orig" : "") + ".txt").c_str());
 		if (!*days[i - 49]) {
 			for (int i2 = 0; i2 < num_days; i2++) {
 				if (days[i2] != NULL) delete days[i2];
@@ -99,7 +107,7 @@ bool Initialize_Everything(const int num_days, int &num_members, int &num_items,
 				items[num_items]->price.cents = atoi(static_cast<const char*>(line.substr(line.find('.') + 1, 2).c_str()));
 				trips[i][purchases_a_day[i]].item = items[num_items];
 				//quantity
-				trips[i][purchases_a_day[i]].quantity = atoi(static_cast<const char*>(line.substr(line.find('.')+ 3).c_str()));
+				trips[i][purchases_a_day[i]].quantity = atoi(static_cast<const char*>(line.substr(line.find('.') + 3).c_str()));
 				items[num_items]->quantity_sold += trips[i][purchases_a_day[i]].quantity;
 				num_items++;
 			}
@@ -155,5 +163,24 @@ bool Initialize_Everything(const int num_days, int &num_members, int &num_items,
 	return true;
 }
 
+void WriteToFile(Member **members, int num_members, Trip **trips, int *purchases_a_day, const char* directory) {
+	ofstream ofs(string(string(directory) + "/warehouse_shoppers.txt").c_str());
+	for (int i = 0; i < num_members; i++) {
+		ofs << members[i]->name << endl;
+		ofs << members[i]->number << endl;
+		ofs << ((members[i]->member_type == EXECUTIVE) ? "Executive" : "Regular") << endl;
+		ofs << members[i]->expiration_date.month << "/" << ((members[i]->expiration_date.day > 9) ? patch::to_string(members[i]->expiration_date.day) : ("0" + patch::to_string(members[i]->expiration_date.day))) << "/" << members[i]->expiration_date.year << endl;
+	}
+	ofs.close();
 
-
+	for (int i = 0; i < 5; i++) {
+		ofstream ofs(string(string(directory) + "/day" + patch::to_string(i + 1) + ".txt").c_str());
+		for (int k = 0; k < purchases_a_day[i]; k++) {
+			ofs << trips[i][k].purchase_date.month << "/" << ((trips[i][k].purchase_date.day > 9) ? patch::to_string(trips[i][k].purchase_date.day) : ("0" + patch::to_string(trips[i][k].purchase_date.day))) << "/" << trips[i][k].purchase_date.year << endl;
+			ofs << trips[i][k].id << endl;
+			ofs << trips[i][k].item->item_name << endl;
+			ofs << trips[i][k].item->price.dollars << "." << ((trips[i][k].item->price.cents > 9) ? patch::to_string(trips[i][k].item->price.cents) : ("0" + patch::to_string(trips[i][k].item->price.cents))) << "\t" << trips[i][k].quantity << endl;
+		}
+		ofs.close();
+	}
+}

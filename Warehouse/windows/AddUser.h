@@ -56,6 +56,7 @@ public:
 	}
 	~AddUser() {}
 	void render_main(zr_window *);
+	void init() {}
 };
 
 #endif /* WINDOWS_ADDUSER_H_ */

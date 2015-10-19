@@ -21,6 +21,7 @@ public:
 	}
 	~InfoItem() {}
 	void render_main(zr_window *);
+	void init() {}
 };
 
 #endif /* WINDOWS_INFOITEM_H_ */

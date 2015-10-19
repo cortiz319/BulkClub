@@ -24,6 +24,8 @@ Member* search_for_member(int, Member **, int);
 Item* search_for_item(string, Item **, int);
 
 bool Initialize_Everything(const int, int &, int &, Member **,
-		Trip **, Item **, int *, const char*);
+		Trip **, Item **, int *, const char*, bool);
+
+void WriteToFile(Member **, int, Trip **, int *, const char*);
 
 #endif /* INITIALIZER_H_ */

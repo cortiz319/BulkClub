@@ -19,6 +19,7 @@ public:
 	}
 	~TotalPurchases(){}
 	void render_main(zr_window *window);
+	void init() {}
 };
 
 #endif /* WINDOWS_TOTALPURCHASES_H_ */

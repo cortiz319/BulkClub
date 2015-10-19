@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "windows/SaveData.h"
 #include "windows/SalesReport.h"
 #include "windows/TotalPurchases.h"
 #include "windows/AddUser.h"
@@ -44,7 +45,7 @@ using namespace std;
 XWindow xw;
 Attributes gui;
 Window **windows;
-int num_windows = 12;
+int num_windows = 14;
 int window_index = 0;
 
 int *num_members;
@@ -54,6 +55,7 @@ Item **items;
 int *num_items;
 Member **members; //sexy right?
 Trip **trips; //it's ra1ning 2-dimensional arrays!
+int window; //for saving window data
 
 //INSTRUCTIONS TO ADD gdi32!!
 //"BulkClub"->Properties->C/C++ Build->Settings->
@@ -148,6 +150,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     windows[INFOQUANTITY] = new InfoQuantity(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[REBATES] = new Rebates(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[EXPIRE] = new MemberExpiration(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[SAVEDATA] = new SaveData(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     //load your windows here!
 
     gui.running = true;
@@ -182,8 +185,11 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
         		if (i != window_index && windows[i] != NULL) windows[i]->update_data(purchases_a_day, items, num_items, members, num_members, trips, num_days);
         	}
         }
-        window_index = windows[window_index]->setWindow();
-
+        window = windows[window_index]->setWindow();
+        if (window_index != window) {
+        	windows[window_index]->init();
+        	window_index = window;
+        }
 
         surface_begin(xw.backbuffer);
         surface_clear(xw.backbuffer, 100, 100, 100);

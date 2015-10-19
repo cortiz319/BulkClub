@@ -1,6 +1,5 @@
 #include "Rebates.h"
 
-
 void Rebates::render_main(zr_window *window){
 	Executive* temp;
 	zr_context context;
@@ -25,4 +24,3 @@ void Rebates::render_main(zr_window *window){
 	}
 	zr_end(&context, window);
 }
-

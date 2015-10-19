@@ -1,7 +1,6 @@
 #ifndef WINDOWS_MEMBEREXPIRATION_H_
 #define WINDOWS_MEMBEREXPIRATION_H_
 
-#include "../core/Initializer.h"
 #include "Window.h"
 
 class MemberExpiration : public Window {
@@ -30,6 +29,7 @@ public:
 	}
 	~MemberExpiration(){}
 	void render_main(zr_window *window);
+	void init() {}
 };
 
 

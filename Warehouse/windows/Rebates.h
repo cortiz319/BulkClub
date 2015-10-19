@@ -1,8 +1,6 @@
 #ifndef WINDOWS_REBATES_H_
 #define WINDOWS_REBATES_H_
 
-
-#include "../core/Initializer.h"
 #include "Window.h"
 #include <cstring>
 
@@ -20,9 +18,7 @@ public:
 	}
 	~Rebates(){}
 	void render_main(zr_window *window);
+	void init() {}
 };
-
-
-
 
 #endif /* WINDOWS_REBATES_H_ */

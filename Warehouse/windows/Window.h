@@ -30,6 +30,7 @@ const int EXECTOREGULAR = 8;
 const int ADDUSER = 9;
 const int TOTALPURCHASES = 10;
 const int INFOITEM = 11;
+const int SAVEDATA = 13;
 
 namespace patch { //this is for to_string
     template < typename T > std::string to_string( const T& n ) {
@@ -96,6 +97,7 @@ public:
 	}
 	virtual ~Window() {}
 	virtual void render_main(zr_window *) = 0;
+	virtual void init() = 0;
 	void changeWindow(int ID) {
 		set = true;
 		ID_c = ID;

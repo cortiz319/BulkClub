@@ -1,7 +1,6 @@
 #ifndef WINDOWS_LOADER_H_
 #define WINDOWS_LOADER_H_
 
-#define MAX_BUFFER  64
 #include <windows.h>
 #include "../member/Executive.h"
 #include "Window.h"
@@ -20,10 +19,6 @@ struct threadParams{
     int *param10;
 };
 
-struct param {
-	void *member;
-};
-
 class Loader : public Window {
 private:
 	zr_edit_box eb;
@@ -40,6 +35,7 @@ public:
 	}
 	~Loader() {}
 	void render_main(zr_window *);
+	void init() {}
 };
 
 #endif /* WINDOWS_LOADER_H_ */

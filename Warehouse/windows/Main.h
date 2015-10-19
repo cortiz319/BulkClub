@@ -12,6 +12,7 @@ public:
 	}
 	~Main() {}
 	void render_main(zr_window *);
+	void init() {}
 };
 
 #endif /* WINDOWS_MAIN_H_ */

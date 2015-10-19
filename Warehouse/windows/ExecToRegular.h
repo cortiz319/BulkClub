@@ -14,6 +14,7 @@ public:
 	}
 	~ExecToRegular() {}
 	void render_main(zr_window *);
+	void init() {}
 };
 
 #endif /* WINDOWS_EXECTOREGULAR_H_ */

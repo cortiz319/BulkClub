@@ -5,7 +5,7 @@ DWORD WINAPI mythread(void *threadParams) {
 	bool out = Initialize_Everything(params->param3, *params->param4,
 			*params->param5, params->param6, params->param7, params->param8,
 			params->param9,
-			string(static_cast<const char*>(params->param1)).substr(0, params->param2).c_str());
+			string(static_cast<const char*>(params->param1)).substr(0, params->param2).c_str(), false);
 	if (out) *params->param10 = 2;
 	else *params->param10 = 3;
 	return 0;
