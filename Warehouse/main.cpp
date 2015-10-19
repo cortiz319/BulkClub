@@ -44,7 +44,7 @@ using namespace std;
 XWindow xw;
 Attributes gui;
 Window **windows;
-int num_windows = 10;
+int num_windows = 12;
 int window_index = 0;
 
 int *num_members;
