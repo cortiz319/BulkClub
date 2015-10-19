@@ -30,6 +30,7 @@ const int EXECTOREGULAR = 8;
 const int ADDUSER = 9;
 const int TOTALPURCHASES = 10;
 const int INFOITEM = 11;
+const int ADDITEM = 12;
 const int SAVEDATA = 13;
 
 namespace patch { //this is for to_string
