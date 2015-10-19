@@ -17,6 +17,7 @@
 #include "windows/RegularToExec.h"
 #include "windows/TotalPurchases.h"
 #include "windows/InfoQuantity.h"
+#include "windows/AddItem.h"
 #include "windows/MemberExpiration.h"
 #include "windows/Rebates.h"
 #include "windows/Loader.h"
@@ -151,6 +152,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     windows[REBATES] = new Rebates(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[EXPIRE] = new MemberExpiration(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[SAVEDATA] = new SaveData(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[ADDITEM] = new AddItem(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     //load your windows here!
 
     gui.running = true;
