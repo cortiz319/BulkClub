@@ -14,10 +14,13 @@
 #include "windows/AddUser.h"
 #include "windows/ExecToRegular.h"
 #include "windows/RegularToExec.h"
+#include "windows/TotalPurchases.h"
+#include "windows/InfoQuantity.h"
+#include "windows/MemberExpiration.h"
+#include "windows/Rebates.h"
 #include "windows/Loader.h"
 #include "windows/MemberInfo.h"
 #include "windows/InfoItem.h"
-#include "windows/InputDay.h"
 #include "windows/Window.h"
 #include "windows/Main.h"
 #include "gui/zahnrad.h"
@@ -139,7 +142,6 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     for (int i = 0; i < num_windows; i++) windows[i] = NULL;
     windows[LOADER] = new Loader(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[MAIN] = new Main(purchases_a_day, items, num_items, members, num_members, trips, num_days);
-    windows[INPUTDAY] = new InputDay(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[SALESREPORT] = new SalesReport(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[MEMBERINFO] = new MemberInfo(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[REGULARTOEXEC] = new RegularToExec(purchases_a_day, items, num_items, members, num_members, trips, num_days);
@@ -147,7 +149,10 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     windows[ADDUSER] = new AddUser(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[INFOITEM] = new InfoItem(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[TOTALPURCHASES] = new TotalPurchases(purchases_a_day, items, num_items, members, num_members, trips, num_days);
-    //load your windows here!
+    windows[INFOQUANTITY] = new InfoQuantity(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[REBATES] = new Rebates(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[EXPIRE] = new MemberExpiration(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+//load your windows here!
 
     gui.running = true;
 
