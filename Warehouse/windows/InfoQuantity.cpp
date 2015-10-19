@@ -45,6 +45,7 @@ void InfoQuantity::render_main(zr_window *window)
 		zr_layout_row_dynamic(&context, 30, 1);
 		zr_label(&context, ("* GRAND TOTAL: $" + patch::to_string(total)).c_str() , ZR_TEXT_LEFT);
 
+		zr_layout_row_static(&context, 30, 240, 6);
 		if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) { changeWindow(MAIN);}
 
 	}

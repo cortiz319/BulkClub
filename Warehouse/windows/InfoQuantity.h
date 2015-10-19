@@ -18,7 +18,10 @@ public:
 	}
 	~InfoQuantity(){}
 	void render_main(zr_window *window);
-	void init() {}
+	void init() {
+		state = 0;
+		fail = 0;
+	}
 };
 
 

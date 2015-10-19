@@ -17,19 +17,23 @@ public:
 		ID = EXPIRE;
 		state = 0;
 		fail = 0;
-		size =12;
+		size = 12;
 		selected = 0;
 		active = false;
 		months = new int[size];
 
-		for(int i = 0; i < size; i++)
-		{
+		for(int i = 0; i < size; i++) {
 			months[i] = i+1;
 		}
 	}
 	~MemberExpiration(){}
 	void render_main(zr_window *window);
-	void init() {}
+	void init() {
+		state = 0;
+		fail = 0;
+		selected = 0;
+		active = false;
+	}
 };
 
 

@@ -23,5 +23,4 @@ public:
 	void init();
 };
 
-
 #endif /* WINDOWS_SAVEDATA_H_ */

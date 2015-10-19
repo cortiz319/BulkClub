@@ -56,7 +56,21 @@ public:
 	}
 	~AddUser() {}
 	void render_main(zr_window *);
-	void init() {}
+	void init() {
+		state = 0;
+		fail = 0;
+		selected = 0;
+		selected_d = 0;
+		selected_m = 0;
+		selected_y = 0;
+		active = false;
+		active_d = false;
+		active_m = false;
+		active_y = false;
+		for (int i = 0; i < amount; i++) {
+			zr_edit_box_clear(eb[i]);
+		}
+	}
 };
 
 #endif /* WINDOWS_ADDUSER_H_ */

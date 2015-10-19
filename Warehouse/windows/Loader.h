@@ -35,7 +35,10 @@ public:
 	}
 	~Loader() {}
 	void render_main(zr_window *);
-	void init() {}
+	void init() {
+		zr_edit_box_clear(&eb);
+		state = 0;
+	}
 };
 
 #endif /* WINDOWS_LOADER_H_ */

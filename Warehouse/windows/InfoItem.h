@@ -21,7 +21,11 @@ public:
 	}
 	~InfoItem() {}
 	void render_main(zr_window *);
-	void init() {}
+	void init() {
+		zr_edit_box_clear(&eb);
+		fail = 0;
+		state = 0;
+	}
 };
 
 #endif /* WINDOWS_INFOITEM_H_ */

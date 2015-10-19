@@ -31,8 +31,7 @@ public:
 		active_d = false;
 
 		// Just In Case
-		for(int i = 0; i < num_days; i++)
-		{
+		for(int i = 0; i < num_days; i++) {
 			days[i] = "Day";
 		}
 
@@ -46,7 +45,14 @@ public:
 		delete [] dateToChar;
 	}
 	void render_main(zr_window *window);
-	void init() {}
+	void init() {
+		state = 0;
+		fail = 0;
+		selected = 0;
+		selected_days = 0;
+		active = false;
+		active_d = false;
+	}
 };
 
 #endif /* WINDOWS_SALESREPORT_H_ */

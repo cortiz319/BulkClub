@@ -27,7 +27,7 @@ void MemberExpiration::render_main(zr_window *window)
 
 		for(int i = 0; i < *num_members; i++)
 		{
-			if(members[i]->expiration_date.month == selected)
+			if(members[i]->expiration_date.month == (selected + 1))
 			{
 				zr_layout_row_dynamic(&context, 30, 2);
 				zr_label(&context, ("Member Name: " + members[i]->name).c_str(), ZR_TEXT_LEFT);
@@ -38,8 +38,6 @@ void MemberExpiration::render_main(zr_window *window)
 			}
 		}
 
-		for (int i = 0; i < 6; i++)
-		zr_layout_row_static(&context, 30, 240, 1);
 		zr_layout_row_static(&context, 30, 240, 6);
 		if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) { changeWindow(MAIN);}
 
