@@ -146,6 +146,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     windows[EXECTOREGULAR] = new ExecToRegular(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[ADDUSER] = new AddUser(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[INFOITEM] = new InfoItem(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[TOTALPURCHASES] = new TotalPurchases(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     //load your windows here!
 
     gui.running = true;
