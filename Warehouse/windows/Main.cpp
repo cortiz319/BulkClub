@@ -17,14 +17,14 @@ void Main::render_main(zr_window *window) {
 			changeWindow(TOTALPURCHASES);
 		}
 		if (zr_button_text(&context, "3. Quantity sold", ZR_BUTTON_DEFAULT)) {
-			/* event handling */
+			changeWindow(INFOQUANTITY);
 		}
 		zr_layout_row_static(&context, 30, 240, 3);
 		if (zr_button_text(&context, "4. Rebate of Members", ZR_BUTTON_DEFAULT)) {
-			/* event handling */
+			changeWindow(REBATES);
 		}
 		if (zr_button_text(&context, "5. Membership expirations", ZR_BUTTON_DEFAULT)) {
-			/* event handling */
+			changeWindow(EXPIRE);
 		}
 		if (zr_button_text(&context, "6. Modify members", ZR_BUTTON_DEFAULT)) {
 			changeWindow(ADDUSER);
