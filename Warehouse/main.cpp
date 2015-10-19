@@ -14,6 +14,10 @@
 #include "windows/AddUser.h"
 #include "windows/ExecToRegular.h"
 #include "windows/RegularToExec.h"
+#include "windows/TotalPurchases.h"
+#include "windows/InfoQuantity.h"
+#include "windows/MemberExpiration.h"
+#include "windows/Rebates.h"
 #include "windows/Loader.h"
 #include "windows/MemberInfo.h"
 #include "windows/InfoItem.h"
@@ -40,7 +44,7 @@ using namespace std;
 XWindow xw;
 Attributes gui;
 Window **windows;
-int num_windows = 12;
+int num_windows = 10;
 int window_index = 0;
 
 int *num_members;
@@ -119,12 +123,16 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
 
     set_style(&gui.style);
 
-    purchases_a_day = new int[num_days];
+    purchases_a_day = new int[5];
+    purchases_a_day[0] = 13; //day1
+    purchases_a_day[1] = 12; //day2
+    purchases_a_day[2] = 10; //day3
+    purchases_a_day[3] = 12; //day4
+    purchases_a_day[4] = 13; //day5
     members = new Member*[MAX_ITEMS];
 	trips = new Trip*[num_days];
 	items = new Item*[MAX_ITEMS];
-	for (int i = 0; i < num_days; i++) purchases_a_day[i] = 0;
-	for (int i = 0; i < num_days; i++) trips[i] = new Trip[MAX_ITEMS];
+	for (int i = 0; i < num_days; i++) trips[i] = new Trip[purchases_a_day[i]];
 	num_items = new int;
 	*num_items = 0;
 	num_members = new int;
@@ -141,7 +149,10 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     windows[ADDUSER] = new AddUser(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[INFOITEM] = new InfoItem(purchases_a_day, items, num_items, members, num_members, trips, num_days);
     windows[TOTALPURCHASES] = new TotalPurchases(purchases_a_day, items, num_items, members, num_members, trips, num_days);
-    //load your windows here!
+    windows[INFOQUANTITY] = new InfoQuantity(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[REBATES] = new Rebates(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+    windows[EXPIRE] = new MemberExpiration(purchases_a_day, items, num_items, members, num_members, trips, num_days);
+//load your windows here!
 
     gui.running = true;
 
@@ -190,4 +201,3 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prev, LPSTR lpCmdLine, int sho
     ReleaseDC(xw.hWnd, xw.hdc);
     return 0;
 }
-
