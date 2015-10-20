@@ -3,6 +3,8 @@
 
 #define MAX_BUFFER  64
 #define MAX_ITEMS 256
+#define TAX_RATE 0.0875
+#define REBATE_PERCENTAGE 0.03
 
 #include <math.h>
 #include <string>

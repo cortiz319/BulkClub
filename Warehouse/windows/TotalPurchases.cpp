@@ -55,35 +55,22 @@ void TotalPurchases::render_main(zr_window *window)
 			zr_label(&context, "PRICE", ZR_TEXT_LEFT);
 			zr_layout_row_dynamic(&context, 30, 1);
 			zr_label(&context, "----------------------------------------------------------------------------------------------------------" , ZR_TEXT_LEFT);
-			// Runs through all the days (
-			for(int k = 0; k < num_days; k++)
-			{
-				for(int j = 0; j < purchases_a_day[k]; j++) {
-					if(membersList[i]->number == trips[k][j].id)
-					{
-						purchase = true;
-				    	zr_layout_row_dynamic(&context, 30, 3);
-						zr_label(&context, ("-" + trips[k][j].item->item_name).c_str() , ZR_TEXT_LEFT);
-						zr_label(&context, patch::to_string(trips[k][j].item->quantity_sold).c_str(), ZR_TEXT_LEFT);
-						zr_label(&context, ("$" +(patch::to_string(trips[k][j].item->price.dollars) + "." + ((trips[k][j].item->price.cents > 9) ? patch::to_string(trips[k][j].item->price.cents) : ("0" + patch::to_string(trips[k][j].item->price.cents))))).c_str(), ZR_TEXT_LEFT);
-						total += (static_cast<float>(trips[k][j].item->price.dollars) + trips[k][j].item->price.cents/100.0) * trips[k][j].quantity;
-						numItems += trips[k][j].item->quantity_sold;
-					}
-				}
-			}
 
-			if(!purchase){
-		    	zr_layout_row_dynamic(&context, 30, 1);
-				zr_label(&context, "*** HAS NOT PURCHASED ANY ITEM ***" , ZR_TEXT_LEFT);
-			}else{
-				zr_layout_row_dynamic(&context, 30, 1);
-				zr_label(&context, "----------------------------------------------------------------------------------------------------------" , ZR_TEXT_LEFT);
-		    	zr_layout_row_dynamic(&context, 30, 1);
-				zr_label(&context, ("* TOTAL PURCHASES: " + patch::to_string(numItems)).c_str() , ZR_TEXT_LEFT);
-
-		    	zr_layout_row_dynamic(&context, 30, 1);
-				zr_label(&context, ("* TOTAL PRICE: $" + patch::to_string(total)).c_str(), ZR_TEXT_LEFT);
+			for (int k = 0; k < membersList[i]->number_items_purchased; k++) {
+				zr_layout_row_dynamic(&context, 30, 3);
+				zr_label(&context, ("-" + membersList[i]->items_purchased[k].item_name).c_str() , ZR_TEXT_LEFT);
+				zr_label(&context, patch::to_string(membersList[i]->items_purchased[k].quantity_sold).c_str(), ZR_TEXT_LEFT);
+				zr_label(&context, ("$" +(patch::to_string(membersList[i]->items_purchased[k].price.dollars) + "." + ((membersList[i]->items_purchased[k].price.cents > 9) ? patch::to_string(membersList[i]->items_purchased[k].price.cents) : ("0" + patch::to_string(membersList[i]->items_purchased[k].price.cents))))).c_str(), ZR_TEXT_LEFT);
+				total += (static_cast<float>(membersList[i]->items_purchased[k].price.dollars) + membersList[i]->items_purchased[k].price.cents/100.0) * membersList[i]->items_purchased->quantity_sold;
+				numItems += membersList[i]->items_purchased->quantity_sold;
 			}
+			zr_layout_row_dynamic(&context, 30, 1);
+			zr_label(&context, "----------------------------------------------------------------------------------------------------------" , ZR_TEXT_LEFT);
+			zr_layout_row_dynamic(&context, 30, 1);
+			zr_label(&context, ("* TOTAL PURCHASES: " + patch::to_string(numItems)).c_str() , ZR_TEXT_LEFT);
+
+			zr_layout_row_dynamic(&context, 30, 1);
+			zr_label(&context, ("* TOTAL PRICE: $" + patch::to_string(total)).c_str(), ZR_TEXT_LEFT);
 
 			grandTotal += numItems;
 			grandPtotal += total;

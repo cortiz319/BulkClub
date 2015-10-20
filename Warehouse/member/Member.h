@@ -1,6 +1,8 @@
 #ifndef MEMBER_H_
 #define MEMBER_H_
 
+#define MAX_ITEMS 256
+
 #include <string>
 #include <iostream>
 #include "../util/Date.h"
@@ -24,7 +26,6 @@ public:
 	Date expiration_date;
 	Item *items_purchased;
 	Member() { total_spent.cents = 0; total_spent.dollars = 0; items_purchased = NULL; number_items_purchased = 0; }
-	Member(const Member &member);
 	virtual ~Member() { if (items_purchased != NULL) delete [] items_purchased; }
 };
 

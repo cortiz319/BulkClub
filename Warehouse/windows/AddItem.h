@@ -1,7 +1,6 @@
 #ifndef WINDOWS_ADDITEM_H_
 #define WINDOWS_ADDITEM_H_
 
-
 #include "Window.h"
 
 const int ITEM = 0;
@@ -16,9 +15,6 @@ private:
 	int amount;
 	zr_edit_box **eb;
 	zr_char **edit_buffer;
-//	zr_size selected_i, selected_d, selected_c, selected_q;
-//	zr_state active_d, active_m, active_y, active_q;
-
 public:
 	AddItem(int *p_a_d, Item ** i, int *n_i, Member **m,
 			int *n_m, Trip **t, int n_d) : Window(p_a_d, i, n_i, m, n_m, t, n_d) {
@@ -35,11 +31,16 @@ public:
 			zr_edit_box_init_fixed(eb[i], edit_buffer[i], MAX_BUFFER, NULL, NULL);
 		}
 
-		}
+	}
 	~AddItem() {}
 	void render_main(zr_window *);
+	void init() {
+		state = 0;
+		fail = 0;
+		for (int i = 0; i < amount; i++) {
+			zr_edit_box_clear(eb[i]);
+		}
+	}
 };
-
-
 
 #endif /* WINDOWS_ADDITEM_H_ */

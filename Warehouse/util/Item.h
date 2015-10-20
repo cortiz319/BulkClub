@@ -7,10 +7,11 @@
 using namespace std;
 
 struct Item {
+	Item() { deleted = false; }
 	Price price;
 	string item_name;
 	int quantity_sold;
-	bool deleted = false;
+	bool deleted;
 };
 
 #endif /* ITEM_H_ */

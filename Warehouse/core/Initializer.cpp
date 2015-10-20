@@ -92,10 +92,14 @@ bool Initialize_Everything(const int num_days, int &num_members, int &num_items,
 			getline(*days[i], line);
 			temp_i = search_for_item(line, items, num_items);
 			if (temp_i != NULL) {
-				trips[i][purchases_a_day[i]].item = temp_i;
+				trips[i][purchases_a_day[i]].item = new Item();
+				trips[i][purchases_a_day[i]].item->item_name = temp_i->item_name;
+				trips[i][purchases_a_day[i]].item->price = temp_i->price;
+
 				//quantity
 				getline(*days[i], line);
 				trips[i][purchases_a_day[i]].quantity = atoi(static_cast<const char*>(line.substr(line.find('.')+ 3).c_str()));
+				trips[i][purchases_a_day[i]].item->quantity_sold = trips[i][purchases_a_day[i]].quantity;
 				temp_i->quantity_sold += trips[i][purchases_a_day[i]].quantity;
 			} else {
 				items[num_items] = new Item();
@@ -105,9 +109,14 @@ bool Initialize_Everything(const int num_days, int &num_members, int &num_items,
 				//price
 				items[num_items]->price.dollars = atoi(static_cast<const char*>(line.substr(0, line.find('.')).c_str()));
 				items[num_items]->price.cents = atoi(static_cast<const char*>(line.substr(line.find('.') + 1, 2).c_str()));
-				trips[i][purchases_a_day[i]].item = items[num_items];
+
+				trips[i][purchases_a_day[i]].item = new Item();
+				trips[i][purchases_a_day[i]].item->item_name = items[num_items]->item_name;
+				trips[i][purchases_a_day[i]].item->price = items[num_items]->price;
+
 				//quantity
 				trips[i][purchases_a_day[i]].quantity = atoi(static_cast<const char*>(line.substr(line.find('.') + 3).c_str()));
+				trips[i][purchases_a_day[i]].item->quantity_sold = trips[i][purchases_a_day[i]].quantity;
 				items[num_items]->quantity_sold += trips[i][purchases_a_day[i]].quantity;
 				num_items++;
 			}
@@ -169,7 +178,7 @@ void WriteToFile(Member **members, int num_members, Trip **trips, int *purchases
 		ofs << members[i]->name << endl;
 		ofs << members[i]->number << endl;
 		ofs << ((members[i]->member_type == EXECUTIVE) ? "Executive" : "Regular") << endl;
-		ofs << members[i]->expiration_date.month << "/" << ((members[i]->expiration_date.day > 9) ? patch::to_string(members[i]->expiration_date.day) : ("0" + patch::to_string(members[i]->expiration_date.day))) << "/" << members[i]->expiration_date.year << endl;
+		ofs << ((members[i]->expiration_date.month > 9) ? patch::to_string(members[i]->expiration_date.month) : ("0" + patch::to_string(members[i]->expiration_date.month))) << "/" << ((members[i]->expiration_date.day > 9) ? patch::to_string(members[i]->expiration_date.day) : ("0" + patch::to_string(members[i]->expiration_date.day))) << "/" << members[i]->expiration_date.year << endl;
 	}
 	ofs.close();
 
@@ -184,3 +193,4 @@ void WriteToFile(Member **members, int num_members, Trip **trips, int *purchases
 		ofs.close();
 	}
 }
+

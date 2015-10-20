@@ -7,6 +7,10 @@ const int NAME = 0;
 const int NUMBER = 1;
 const int S_NAME = 2;
 const int S_NUMBER = 3;
+const int S_NUMBER_1 = 4;
+const int S_NAME_1 = 5;
+const int ITEM_NAME = 6;
+const int ITEM_QUANTITY = 7;
 
 class AddUser : public Window {
 private:
@@ -19,6 +23,7 @@ private:
 	zr_state active, active_d, active_m, active_y;
 	char **values;
 	int *days, *months, *years;
+	Member *temp;
 public:
 	AddUser(int *p_a_d, Item ** i, int *n_i, Member **m,
 			int *n_m, Trip **t, int n_d) : Window(p_a_d, i, n_i, m, n_m, t, n_d) {
@@ -53,6 +58,8 @@ public:
 		for (int i = 0; i < 12; i++) months[i] = i + 1;
 		years[0] = 2016;
 		years[1] = 2015;
+
+		temp = NULL;
 	}
 	~AddUser() {}
 	void render_main(zr_window *);
@@ -70,6 +77,8 @@ public:
 		for (int i = 0; i < amount; i++) {
 			zr_edit_box_clear(eb[i]);
 		}
+
+		temp = NULL;
 	}
 };
 

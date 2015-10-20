@@ -5,8 +5,7 @@ void AddItem::render_main(zr_window *window){
 	zr_context layout;
 	zr_begin(&context, window);
 	{
-		if(state == 0)
-		{
+		if(state == 0) {
 			zr_header(&context, "Add and Delete Item", 0, 0, ZR_HEADER_LEFT);
 
 			zr_layout_row_static(&context, 30, 240, 3);
@@ -19,17 +18,17 @@ void AddItem::render_main(zr_window *window){
 				fail = 0;
 			}
 
-
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < 12; i++)
 			zr_layout_row_static(&context, 30, 240, 1);
 			zr_layout_row_static(&context, 30, 240, 6);
 			if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) { changeWindow(MAIN);}
-		}else if(state == 1){
+		} else if(state == 1) {
 			zr_header(&context, "Add Item", 0, 0, ZR_HEADER_LEFT);
 			zr_layout_row_dynamic(&context, 30, 1);
 			if (fail == 1) zr_label(&context, "Error! Item name is empty", ZR_TEXT_LEFT);
 			if (fail == 2) zr_label(&context, "Error! Dollar is empty (is it empty? does it contain regular characters?)", ZR_TEXT_LEFT);
 			if (fail == 3) zr_label(&context, "Error! Cents is empty", ZR_TEXT_LEFT);
+			if (fail == 5) zr_label(&context, "Error! Cents is longer then two characters", ZR_TEXT_LEFT);
 			if (fail == 4) zr_label(&context, "Created Item successfully!", ZR_TEXT_LEFT);
 			zr_layout_row_dynamic(&context, 30, 1);
 			zr_label(&context, "Please input the necessary data to create an item:", ZR_TEXT_LEFT);
@@ -43,10 +42,9 @@ void AddItem::render_main(zr_window *window){
 			zr_label(&context, "Cents:", ZR_TEXT_LEFT);
 			zr_editbox(&context, eb[CENTS]);
 
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < 8; i++)
 			zr_layout_row_static(&context, 30, 240, 1);
 			zr_layout_row_static(&context, 30, 240, 6);
-
 			if (zr_button_text(&context, "Submit", ZR_BUTTON_DEFAULT)) {
 				if (eb[ITEM]->glyphes == 0) fail = 1;
 				else if (eb[DOLLAR]->glyphes == 0) fail = 2;
@@ -74,6 +72,8 @@ void AddItem::render_main(zr_window *window){
 						fail = 2;
 					} else if (eb[CENTS]->glyphes <= 0) {
 						fail = 3;
+					} else if (eb[CENTS]->glyphes > 2) {
+						fail = 5;
 					} else {
 						fail = 4;
 						int iterator = 0;
@@ -109,76 +109,70 @@ void AddItem::render_main(zr_window *window){
 						delete [] temp;
 						issue_update(); //super important!
 					}
-				 }
+				}
 			}
-
-	}else if(state == 2){
-		zr_header(&context, "Delete Item", 0, 0, ZR_HEADER_LEFT);
-		zr_layout_row_static(&context, 30, 240, 3);
-		if (zr_button_text(&context, "Search by item name", ZR_BUTTON_DEFAULT)) {
-			state = 3;
-			fail = 0;
-		}
-		for (int i = 0; i < 11; i++)
-		zr_layout_row_static(&context, 30, 240, 1);
-		zr_layout_row_static(&context, 30, 240, 6);
-		if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) {
-			state = 0;
-			fail = 0;
-		}
-	}
-	else if(state == 3)
-	{
-		zr_header(&context, "Delete Item", 0, 0, ZR_HEADER_LEFT);
-		zr_layout_row_dynamic(&context, 30, 1);
-		if (fail == 1) zr_label(&context, "Error! Empty field", ZR_TEXT_LEFT);
-		if (fail == 2) zr_label(&context, "Error! Could not find item", ZR_TEXT_LEFT);
-		if (fail == 3) zr_label(&context, "Success! Deleted item", ZR_TEXT_LEFT); //not really a fail
-		zr_layout_row_dynamic(&context, 30, 1);
-		zr_label(&context, "Please input an item:", ZR_TEXT_LEFT);
-		zr_layout_row_static(&context, 30, 240, 3);
-		zr_editbox(&context, eb[S_ITEM]);
-		zr_layout_row_dynamic(&context, 30, 6);
-		if (zr_button_text(&context, "Submit", ZR_BUTTON_DEFAULT)) {
-			if (eb[S_ITEM]->glyphes != 0) {
-				int iterator = 0, iterator2 = 0;
-				char *arr = static_cast<char* >(eb[S_ITEM]->buffer.memory.ptr);
-				while (iterator < *num_items) {
-					if (eb[S_ITEM]->glyphes != items[iterator]->item_name.size()) {
+			if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) {
+				state = 0;
+				fail = 0;
+			}
+		} else if (state == 2) {
+			zr_header(&context, "Delete Item", 0, 0, ZR_HEADER_LEFT);
+			zr_layout_row_static(&context, 30, 240, 3);
+			if (zr_button_text(&context, "Search by item name", ZR_BUTTON_DEFAULT)) {
+				state = 3;
+				fail = 0;
+			}
+			for (int i = 0; i < 12; i++)
+			zr_layout_row_static(&context, 30, 240, 1);
+			zr_layout_row_static(&context, 30, 240, 6);
+			if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) {
+				state = 0;
+				fail = 0;
+			}
+		} else if(state == 3) {
+			zr_header(&context, "Delete Item", 0, 0, ZR_HEADER_LEFT);
+			zr_layout_row_dynamic(&context, 30, 1);
+			if (fail == 1) zr_label(&context, "Error! Empty field", ZR_TEXT_LEFT);
+			if (fail == 2) zr_label(&context, "Error! Could not find item", ZR_TEXT_LEFT);
+			if (fail == 3) zr_label(&context, "Success! Deleted item", ZR_TEXT_LEFT); //not really a fail
+			zr_layout_row_dynamic(&context, 30, 1);
+			zr_label(&context, "Please input an item:", ZR_TEXT_LEFT);
+			zr_layout_row_static(&context, 30, 240, 3);
+			zr_editbox(&context, eb[S_ITEM]);
+			zr_layout_row_dynamic(&context, 30, 6);
+			if (zr_button_text(&context, "Submit", ZR_BUTTON_DEFAULT)) {
+				if (eb[S_ITEM]->glyphes != 0) {
+					int iterator = 0, iterator2 = 0;
+					char *arr = static_cast<char* >(eb[S_ITEM]->buffer.memory.ptr);
+					while (iterator < *num_items) {
+						if (eb[S_ITEM]->glyphes != items[iterator]->item_name.size()) {
+							iterator++;
+							continue;
+						}
+						while (iterator2 < eb[S_ITEM]->glyphes && arr[iterator2] == items[iterator]->item_name[iterator2]) iterator2++;
+						if (iterator2 >= eb[S_ITEM]->glyphes) break;
+						iterator2 = 0;
 						iterator++;
-						continue;
 					}
-					while (iterator2 < eb[S_ITEM]->glyphes && arr[iterator2] == items[iterator]->item_name[iterator2]) iterator2++;
-					if (iterator2 >= eb[S_ITEM]->glyphes) break;
-					iterator2 = 0;
-					iterator++;
-				}
-				if (iterator >= *num_items) {
-					fail = 2;
+					if (iterator >= *num_items) {
+						fail = 2;
+					} else {
+						fail = 3;
+						items[iterator]->deleted = true;
+						issue_update(); //super important!
+					}
 				} else {
-					fail = 3;
-
-					items[iterator]->deleted = true;
-
-					issue_update(); //super important!
-
+					fail = 1;
 				}
-			} else {
-				fail = 1;
+				zr_layout_row_static(&context, 30, 240, 1);
+				zr_layout_row_static(&context, 30, 240, 6);
+				if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) { changeWindow(MAIN);}
 			}
+			for (int i = 0; i < 9; i++)
 			zr_layout_row_static(&context, 30, 240, 1);
 			zr_layout_row_static(&context, 30, 240, 6);
 			if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) { changeWindow(MAIN);}
-	}
-
-		for (int i = 0; i < 6; i++)
-		zr_layout_row_static(&context, 30, 240, 1);
-		zr_layout_row_static(&context, 30, 240, 6);
-		if (zr_button_text(&context, "Back", ZR_BUTTON_DEFAULT)) { changeWindow(MAIN);}
+		}
 	}
 	zr_end(&context, window);
 }
-}
-
-
-

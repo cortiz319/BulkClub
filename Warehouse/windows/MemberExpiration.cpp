@@ -43,6 +43,4 @@ void MemberExpiration::render_main(zr_window *window)
 
 	}
 	zr_end(&context, window);
-
 }
-
